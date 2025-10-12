@@ -1,0 +1,126 @@
+.cardsContainer {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 7vh;
+  border-radius: 8px;
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+}
+
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.paciente {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+
+.badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.pendiente {
+  background-color: #ffa726;
+}
+
+.completada {
+  background-color: #66bb6a;
+}
+
+.cancelada {
+  background-color: #ef5350;
+}
+
+.ausente {
+  background-color: #9e9e9e;
+}
+
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.label {
+  font-weight: 600;
+  color: #555;
+}
+
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.btnEdit,
+.btnDelete {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.btnEdit:hover {
+  color: #1976d2;
+  transform: scale(1.1);
+}
+
+.btnDelete:hover {
+  color: #d32f2f;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .paciente {
+    font-size: 1rem;
+  }
+
+  .cardBody p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.3rem 0;
+  }
+
+  .label {
+    color: #333;
+  }
+}
