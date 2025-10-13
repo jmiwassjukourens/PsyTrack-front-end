@@ -3,6 +3,9 @@ import styles from "./SesionesPage.module.css";
 import SessionCards from "../../components/SessionCards/SessionCards";
 import NewSessionButton from "../../components/NewSessionButton/NewSessionButton";
 import FiltersBar from "../../components/FiltersBar/FiltersBar";
+import NewSesionPage from "../NewSesionPage/NewSesionPage";
+import EditSesionPage from "../EditSesionPage/EditSesionPage";
+
 
 
 function SesionesPage() {
@@ -45,42 +48,17 @@ function SesionesPage() {
     fechaPagoHasta: "",
   });
 
-  const handleCreate = () => {
-    const nombre = prompt("Nombre del paciente:");
-    if (!nombre) return;
+  const [view, setView] = useState("list");
+  const [selectedSesion, setSelectedSesion] = useState(null);
 
-    const nueva = {
-      id: Date.now(),
-      fecha: new Date().toISOString(),
-      fechaDePago: null,
-      estado: "Pendiente",
-      paciente: { nombre },
-      precio: 1500,
-      adjunto: null,
-    };
-
-    setSesiones([...sesiones, nueva]);
+  const handleCreate = (nuevaSesion) => {
+    setSesiones((prev) => [...prev, nuevaSesion]);
+    setView("list");
   };
 
-  const handleEdit = (sesion) => {
-    const nuevoNombre = prompt("Editar nombre del paciente:", sesion.paciente.nombre);
-    if (!nuevoNombre) return;
-
-    const nuevoEstado = prompt("Editar estado (Pendiente, Pagado, Cancelada):", sesion.estado);
-    const nuevoPrecio = prompt("Editar precio:", sesion.precio);
-
-    setSesiones((prev) =>
-      prev.map((s) =>
-        s.id === sesion.id
-          ? {
-              ...s,
-              paciente: { nombre: nuevoNombre },
-              estado: nuevoEstado || s.estado,
-              precio: Number(nuevoPrecio) || s.precio,
-            }
-          : s
-      )
-    );
+  const handleUpdate = (editada) => {
+    setSesiones((prev) => prev.map((s) => (s.id === editada.id ? editada : s)));
+    setView("list");
   };
 
   const handleDelete = (id) => {
@@ -104,24 +82,50 @@ function SesionesPage() {
       (!filtros.fechaHasta || new Date(s.fecha) <= new Date(filtros.fechaHasta));
 
     const matchFechaPago =
-      (!filtros.fechaPagoDesde || (s.fechaDePago && new Date(s.fechaDePago) >= new Date(filtros.fechaPagoDesde))) &&
-      (!filtros.fechaPagoHasta || (s.fechaDePago && new Date(s.fechaDePago) <= new Date(filtros.fechaPagoHasta)));
+      (!filtros.fechaPagoDesde ||
+        (s.fechaDePago && new Date(s.fechaDePago) >= new Date(filtros.fechaPagoDesde))) &&
+      (!filtros.fechaPagoHasta ||
+        (s.fechaDePago && new Date(s.fechaDePago) <= new Date(filtros.fechaPagoHasta)));
 
     return matchEstado && matchBusqueda && matchFechaSesion && matchFechaPago;
   });
+
+
+  if (view === "create") {
+    return <NewSesionPage onCreate={handleCreate} onCancel={() => setView("list")} />;
+  }
+
+
+  if (view === "edit" && selectedSesion) {
+    return (
+      <EditSesionPage
+        sesion={selectedSesion}
+        onUpdate={handleUpdate}
+        onCancel={() => setView("list")}
+      />
+    );
+  }
+
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Gestión de Sesiones</h2>
-        <NewSessionButton onClick={handleCreate} />
+        <NewSessionButton onClick={() => setView("create")} />
       </div>
 
       <div className={styles.filtersWrapper}>
         <FiltersBar onFilterChange={handleFilterChange} />
       </div>
 
-      <SessionCards sesiones={sesionesFiltradas} onEdit={handleEdit} onDelete={handleDelete} />
+      <SessionCards
+        sesiones={sesionesFiltradas}
+        onEdit={(s) => {
+          setSelectedSesion(s);
+          setView("edit");
+        }}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }

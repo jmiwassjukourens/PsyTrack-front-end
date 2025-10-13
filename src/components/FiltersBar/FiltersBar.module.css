@@ -21,7 +21,7 @@
 }
 
 .toggleBtn {
-  background-color: #001f3f;
+  background-color: #ff914d; /* naranja principal */
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -32,7 +32,7 @@
 }
 
 .toggleBtn.active {
-  background-color: #004b9a;
+  background-color: #ff7b2f; /* naranja más oscuro para activo */
 }
 
 .toggleBtn:hover {
@@ -51,9 +51,8 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-
 .section {
-  background-color: #f8f9fb;
+  background-color: #fff4eb; /* fondo naranja suave */
   padding: 1rem 1.2rem;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -65,9 +64,8 @@
   gap: 0.6rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #001f3f;
+  color: #ff914d; /* naranja principal */
 }
-
 
 .switch {
   position: relative;
@@ -107,13 +105,12 @@
 }
 
 .switch input:checked + .slider {
-  background-color: #001f3f;
+  background-color: #ff914d; /* naranja al activar */
 }
 
 .switch input:checked + .slider:before {
   transform: translateX(20px);
 }
-
 
 .inputBusqueda,
 .selectEstado,
@@ -142,7 +139,7 @@ select:disabled {
 }
 
 .btnFiltrar, .btnLimpiar {
-  background-color: #001f3f;
+  background-color: #ff914d;
   color: white;
   border: none;
   border-radius: 6px;
@@ -158,14 +155,13 @@ select:disabled {
 
 .btnFiltrar:hover,
 .btnLimpiar:hover {
-  background-color: #004b9a;
+  background-color: #ff7b2f;
   transform: translateY(-2px);
 }
 
 .iconoFiltro {
   font-size: 1.1rem;
 }
-
 
 .atajosTiempo {
   display: flex;
@@ -176,9 +172,9 @@ select:disabled {
 }
 
 .atajosTiempo button {
-  background-color: #e8eef7;
-  color: #001f3f;
-  border: 1px solid #cbd5e0;
+  background-color: #fff0e6; /* naranja muy suave */
+  color: #ff914d;
+  border: 1px solid #ffc27c;
   border-radius: 8px;
   padding: 8px 14px;
   font-size: 0.85rem;
@@ -187,11 +183,10 @@ select:disabled {
 }
 
 .atajosTiempo button:hover {
-  background-color: #001f3f;
+  background-color: #ff914d;
   color: #fff;
   transform: translateY(-2px);
 }
-
 
 @media (max-width: 768px) {
   .inputsFechaContainer {
