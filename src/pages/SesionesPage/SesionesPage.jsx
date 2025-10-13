@@ -4,33 +4,46 @@ import SessionCards from "../../components/SessionCards/SessionCards";
 import NewSessionButton from "../../components/NewSessionButton/NewSessionButton";
 import FiltersBar from "../../components/FiltersBar/FiltersBar";
 
+
 function SesionesPage() {
   const [sesiones, setSesiones] = useState([
     {
       id: 1,
-      fecha: "2025-10-07T10:00:00",
-      estado: "Pendiente",
+      fecha: "2025-05-07T10:00:00",
+      fechaDePago: "2025-10-09T18:00:00",
+      estado: "Pagado",
       paciente: { nombre: "Juan Pérez" },
       precio: 1500,
+      adjunto: "recibo-juan.pdf",
     },
     {
       id: 2,
       fecha: "2025-10-08T14:30:00",
-      estado: "Completada",
+      fechaDePago: null,
+      estado: "Pagado",
       paciente: { nombre: "María García" },
       precio: 2000,
+      adjunto: null,
     },
     {
       id: 3,
       fecha: "2025-10-09T09:00:00",
-      estado: "Cancelada",
+      fechaDePago: null,
+      estado: "Pendiente",
       paciente: { nombre: "Carlos López" },
       precio: 1000,
+      adjunto: null,
     },
   ]);
 
-  const [filtros, setFiltros] = useState({ estado: "", busqueda: "" });
-
+  const [filtros, setFiltros] = useState({
+    estado: "",
+    busqueda: "",
+    fechaDesde: "",
+    fechaHasta: "",
+    fechaPagoDesde: "",
+    fechaPagoHasta: "",
+  });
 
   const handleCreate = () => {
     const nombre = prompt("Nombre del paciente:");
@@ -39,27 +52,21 @@ function SesionesPage() {
     const nueva = {
       id: Date.now(),
       fecha: new Date().toISOString(),
+      fechaDePago: null,
       estado: "Pendiente",
       paciente: { nombre },
       precio: 1500,
+      adjunto: null,
     };
 
     setSesiones([...sesiones, nueva]);
   };
 
-
   const handleEdit = (sesion) => {
-    const nuevoNombre = prompt(
-      "Editar nombre del paciente:",
-      sesion.paciente.nombre
-    );
+    const nuevoNombre = prompt("Editar nombre del paciente:", sesion.paciente.nombre);
     if (!nuevoNombre) return;
 
-    const nuevoEstado = prompt(
-      "Editar estado (Pendiente, Completada, Cancelada):",
-      sesion.estado
-    );
-
+    const nuevoEstado = prompt("Editar estado (Pendiente, Pagado, Cancelada):", sesion.estado);
     const nuevoPrecio = prompt("Editar precio:", sesion.precio);
 
     setSesiones((prev) =>
@@ -76,25 +83,31 @@ function SesionesPage() {
     );
   };
 
-
   const handleDelete = (id) => {
     if (window.confirm("¿Seguro que querés eliminar esta sesión?")) {
       setSesiones((prev) => prev.filter((s) => s.id !== id));
     }
   };
 
-
   const handleFilterChange = (filtrosRecibidos) => {
     setFiltros(filtrosRecibidos);
   };
 
   const sesionesFiltradas = sesiones.filter((s) => {
-    const matchEstado =
-      filtros.estado === "" || s.estado === filtros.estado;
+    const matchEstado = filtros.estado === "" || s.estado === filtros.estado;
     const matchBusqueda = s.paciente.nombre
       .toLowerCase()
       .includes(filtros.busqueda.toLowerCase());
-    return matchEstado && matchBusqueda;
+
+    const matchFechaSesion =
+      (!filtros.fechaDesde || new Date(s.fecha) >= new Date(filtros.fechaDesde)) &&
+      (!filtros.fechaHasta || new Date(s.fecha) <= new Date(filtros.fechaHasta));
+
+    const matchFechaPago =
+      (!filtros.fechaPagoDesde || (s.fechaDePago && new Date(s.fechaDePago) >= new Date(filtros.fechaPagoDesde))) &&
+      (!filtros.fechaPagoHasta || (s.fechaDePago && new Date(s.fechaDePago) <= new Date(filtros.fechaPagoHasta)));
+
+    return matchEstado && matchBusqueda && matchFechaSesion && matchFechaPago;
   });
 
   return (
@@ -108,11 +121,7 @@ function SesionesPage() {
         <FiltersBar onFilterChange={handleFilterChange} />
       </div>
 
-      <SessionCards
-        sesiones={sesionesFiltradas}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      <SessionCards sesiones={sesionesFiltradas} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
   );
 }
