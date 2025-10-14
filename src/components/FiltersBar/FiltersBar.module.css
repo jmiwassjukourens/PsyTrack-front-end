@@ -172,7 +172,7 @@ select:disabled {
 }
 
 .atajosTiempo button {
-  background-color: #fff0e6; /* naranja muy suave */
+  background-color: #fff0e6; 
   color: #ff914d;
   border: 1px solid #ffc27c;
   border-radius: 8px;

@@ -39,21 +39,19 @@ function Navbar() {
             <li><Link to="/reportes" onClick={toggleMenu}>Reportes</Link></li>
             <li>
               <Link to="/notificaciones" onClick={toggleMenu}>
-                Notificaciones {unreadCount > 0 && (
-                  <span style={{
-                    background: "#ef5350",
-                    color: "white",
-                    borderRadius: "50%",
-                    padding: "2px 7px",
-                    marginLeft: "6px",
-                    fontSize: "0.8rem"
-                  }}>
+                Notificaciones{" "}
+                {unreadCount > 0 && (
+                  <span className={styles.notificationBadge}>
                     {unreadCount}
                   </span>
                 )}
               </Link>
             </li>
-            <li><button className={styles.logout} onClick={logout}>Cerrar sesión</button></li>
+            <li>
+              <button className={styles.logout} onClick={logout}>
+                Cerrar sesión
+              </button>
+            </li>
           </ul>
         </nav>
       )}

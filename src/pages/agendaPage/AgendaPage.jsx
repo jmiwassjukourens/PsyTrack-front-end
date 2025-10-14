@@ -2,13 +2,16 @@
 import { useEffect, useState } from "react";
 import { getSessions, addSession, deleteSession, updateSession } from "../../services/sessionService";
 import CalendarGrid from "../../components/CalendarGrid/CalendarGrid";
+import AgendaFilterBar from "../../components/CalendarGrid/AgendaFiltersBar";
 import SessionModal from "../../components/Modals/SessionModal/SessionModal";
 import styles from "./AgendaPage.module.css";
 
+
+
 export default function AgendaPage() {
   const today = new Date();
-  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0,10);
-  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().slice(0,10);
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10);
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().slice(0, 10);
 
   const [sessions, setSessions] = useState([]);
   const [rangeStart, setRangeStart] = useState(startOfMonth);
@@ -39,15 +42,25 @@ export default function AgendaPage() {
 
   const handleMarkPaid = async (id, fechaPago) => {
     await updateSession(id, { fechaDePago: fechaPago, estado: "Pagado" });
-    setSessions((prev) => prev.map(s => s.id===id ? {...s, fechaDePago, estado:"Pagado"} : s));
+    setSessions((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, fechaDePago, estado: "Pagado" } : s))
+    );
   };
+
+  // 🔹 Aplicamos el filtro según el rango seleccionado
+  const filteredSessions = sessions.filter((s) => {
+    const fecha = new Date(s.fecha).toISOString().slice(0, 10);
+    return fecha >= rangeStart && fecha <= rangeEnd;
+  });
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <div className={styles.titleBlock}>
           <h2 className={styles.title}>Agenda</h2>
-          <p className={styles.subtitle}>Ve tus sesiones entre dos fechas y gestionalas rápido</p>
+          <p className={styles.subtitle}>
+            Ve tus sesiones entre dos fechas y gestionalas rápido
+          </p>
         </div>
 
         <div className={styles.controls}>
@@ -70,11 +83,23 @@ export default function AgendaPage() {
         </div>
       </div>
 
+      <AgendaFilterBar
+        onShortcutRangeChange={(desde, hasta) => {
+          setRangeStart(desde);
+          setRangeEnd(hasta);
+        }}
+      />
+
+
+
       <CalendarGrid
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
-        sessions={sessions}
-        onCreateForDate={(isoDate) => { setModalDate(isoDate); setModalOpen(true); }}
+        sessions={filteredSessions}
+        onCreateForDate={(isoDate) => {
+          setModalDate(isoDate);
+          setModalOpen(true);
+        }}
         onDelete={handleDelete}
         onMarkPaid={handleMarkPaid}
       />

@@ -80,12 +80,12 @@ export default function SessionChip({ session, onCancel, onMarkPaid, onReschedul
         sesion={session}
       />
 
-      <PayModal
-        open={openPay}
-        onClose={() => setOpenPay(false)}
-        onConfirm={handleConfirmPay}
-        sesion={session}
-      />
+        <PayModal
+            open={openPay}
+            onClose={() => setOpenPay(false)}
+            onConfirm={handleConfirmPay}
+            sesion={session}
+        />
 
       <RescheduleModal
         open={openReschedule}
