@@ -1,0 +1,83 @@
+.gridWrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 8vh;
+}
+@media (max-width: 680px) {
+  .gridWrapper {
+    padding-bottom: 14vh;
+  }
+
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+
+.cell {
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 120px;
+}
+
+.cellHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.dayNumber {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.dayName {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.cellAdd {
+  border: none;
+  background: #ff914d;
+  color: white;
+  height: 30px;
+  width: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.cellAdd:hover {
+  background: #ff7b2f;
+  transform: translateY(-2px);
+}
+
+
+.cellBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  overflow: auto;
+}
+
+.todayBg {
+  background: linear-gradient(90deg, rgba(255,249,241,1) 0%, rgba(255,242,233,1) 100%);
+  border-radius: 8px;
+  padding: 6px;
+}
+
+.emptyText {
+  color: #aaa;
+  font-size: 0.9rem;
+  padding: 4px;
+}

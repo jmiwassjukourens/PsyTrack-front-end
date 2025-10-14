@@ -124,3 +124,29 @@
     color: #333;
   }
 }
+
+.btnAttach,
+.btnPaid,
+.btnEdit,
+.btnDelete {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.btnPaid:hover {
+  color: #388e3c;
+  transform: scale(1.1);
+}
+
+.btnPaid.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnAttach:hover {
+  color: #6a1b9a;
+  transform: scale(1.1);
+}

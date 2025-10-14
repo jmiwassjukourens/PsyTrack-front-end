@@ -1,10 +1,16 @@
 import styles from "./SessionCards.module.css";
 
-function SessionCards({ sesiones, onEdit, onDelete }) {
+function SessionCards({ sesiones, onEdit, onDelete, onMarkAsPaid }) {
   const handleDownload = (adjunto) => {
     if (!adjunto) return;
     alert(`Descargando archivo: ${adjunto}`);
+  };
 
+  const handleMarkAsPaid = (sesion) => {
+    const fechaPago = prompt("📅 Ingrese la fecha de pago (formato YYYY-MM-DD):");
+    if (fechaPago) {
+      onMarkAsPaid(sesion.id, fechaPago);
+    }
   };
 
   return (
@@ -43,6 +49,14 @@ function SessionCards({ sesiones, onEdit, onDelete }) {
                 onClick={() => handleDownload(s.adjunto)}
               >
                 📎
+              </button>
+              <button
+                className={`${styles.btnPaid} ${s.fechaDePago ? styles.disabled : ""}`}
+                title={s.fechaDePago ? "Ya marcada como pagada" : "Marcar como pagada"}
+                disabled={!!s.fechaDePago}
+                onClick={() => handleMarkAsPaid(s)}
+              >
+                💰
               </button>
 
               <button

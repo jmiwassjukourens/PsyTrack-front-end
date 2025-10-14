@@ -71,6 +71,15 @@ function SesionesPage() {
     setFiltros(filtrosRecibidos);
   };
 
+  const handleMarkAsPaid = (id, fechaPago) => {
+  setSesiones((prev) =>
+    prev.map((s) =>
+      s.id === id ? { ...s, fechaDePago: fechaPago, estado: "Pagado" } : s
+    )
+  );
+};
+
+
   const sesionesFiltradas = sesiones.filter((s) => {
     const matchEstado = filtros.estado === "" || s.estado === filtros.estado;
     const matchBusqueda = s.paciente.nombre
@@ -125,6 +134,7 @@ function SesionesPage() {
           setView("edit");
         }}
         onDelete={handleDelete}
+        onMarkAsPaid={handleMarkAsPaid}
       />
     </div>
   );

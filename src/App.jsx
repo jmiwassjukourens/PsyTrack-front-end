@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import NotFound from "./components/NotFound/NotFound";
 import SesionesPage from "./pages/SesionesPage/SesionesPage";
+import AgendaPage from "./pages/AgendaPage/AgendaPage";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
               }
             />
             <Route
+              path="/agenda"
+              element={
+                <RequireAuth>
+                  <AgendaPage /> 
+                </RequireAuth>
+              }
+            />
+            <Route
               path="*"
               element={
                 <RequireAuth>
@@ -40,6 +49,7 @@ function App() {
                 </RequireAuth>
               }
             />
+            
           </Routes>
         </main>
 
