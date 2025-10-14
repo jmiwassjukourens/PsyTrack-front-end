@@ -1,16 +1,44 @@
 import styles from "./SessionCards.module.css";
+import { DeleteModal } from "../Modals/DeleteModal/DeleteModal";
+import { PayModal } from "../Modals/PayModal/PayModal";
+import { useState } from "react";
 
 function SessionCards({ sesiones, onEdit, onDelete, onMarkAsPaid }) {
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openPay, setOpenPay] = useState(false);
+  const [selectedSession, setSelectedSession] = useState(null);
+
+
+  const handleOpenDelete = (sesion) => {
+    setSelectedSession(sesion);
+    setOpenDelete(true);
+  };
+
+
+  const handleConfirmDelete = (data) => {
+    onDelete(selectedSession.id, data);
+    setOpenDelete(false);
+    setSelectedSession(null);
+  };
+
+
+  const handleOpenPay = (sesion) => {
+    setSelectedSession(sesion);
+    setOpenPay(true);
+  };
+
+
+  const handleConfirmPay = (data) => {
+    const fechaISO = new Date(data.fechaPago).toISOString();
+    onMarkAsPaid(selectedSession.id, fechaISO);
+    setOpenPay(false);
+    setSelectedSession(null);
+  };
+
+
   const handleDownload = (adjunto) => {
     if (!adjunto) return;
     alert(`Descargando archivo: ${adjunto}`);
-  };
-
-  const handleMarkAsPaid = (sesion) => {
-    const fechaPago = prompt("📅 Ingrese la fecha de pago (formato YYYY-MM-DD):");
-    if (fechaPago) {
-      onMarkAsPaid(sesion.id, fechaPago);
-    }
   };
 
   return (
@@ -50,11 +78,12 @@ function SessionCards({ sesiones, onEdit, onDelete, onMarkAsPaid }) {
               >
                 📎
               </button>
+
               <button
                 className={`${styles.btnPaid} ${s.fechaDePago ? styles.disabled : ""}`}
                 title={s.fechaDePago ? "Ya marcada como pagada" : "Marcar como pagada"}
                 disabled={!!s.fechaDePago}
-                onClick={() => handleMarkAsPaid(s)}
+                onClick={() => handleOpenPay(s)}
               >
                 💰
               </button>
@@ -70,7 +99,7 @@ function SessionCards({ sesiones, onEdit, onDelete, onMarkAsPaid }) {
               <button
                 className={styles.btnDelete}
                 title="Eliminar sesión"
-                onClick={() => onDelete(s.id)}
+                onClick={() => handleOpenDelete(s)}
               >
                 🗑️
               </button>
@@ -78,6 +107,21 @@ function SessionCards({ sesiones, onEdit, onDelete, onMarkAsPaid }) {
           </div>
         ))
       )}
+
+
+      <DeleteModal
+        open={openDelete}
+        onClose={() => setOpenDelete(false)}
+        onConfirm={handleConfirmDelete}
+        sesion={selectedSession}
+      />
+
+      <PayModal
+        open={openPay}
+        onClose={() => setOpenPay(false)}
+        onConfirm={handleConfirmPay}
+        sesion={selectedSession}
+      />
     </div>
   );
 }

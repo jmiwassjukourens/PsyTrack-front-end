@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getSessions, addSession, deleteSession, updateSession } from "../../services/sessionService";
 import CalendarGrid from "../../components/CalendarGrid/CalendarGrid";
-import SessionModal from "../../components/SessionModal/SessionModal";
+import SessionModal from "../../components/Modals/SessionModal/SessionModal";
 import styles from "./AgendaPage.module.css";
 
 export default function AgendaPage() {

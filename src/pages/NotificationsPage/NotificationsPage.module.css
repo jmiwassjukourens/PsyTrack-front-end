@@ -1,0 +1,56 @@
+.container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  color: #333;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btnSecondary {
+  background-color: #81c784;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  background-color: #66bb6a;
+}
+
+.btnDanger {
+  background-color: #ef5350;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btnDanger:hover {
+  background-color: #e53935;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+  font-size: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}

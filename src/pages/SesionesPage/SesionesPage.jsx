@@ -1,44 +1,20 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import styles from "./SesionesPage.module.css";
 import SessionCards from "../../components/SessionCards/SessionCards";
 import NewSessionButton from "../../components/NewSessionButton/NewSessionButton";
 import FiltersBar from "../../components/FiltersBar/FiltersBar";
 import NewSesionPage from "../NewSesionPage/NewSesionPage";
 import EditSesionPage from "../EditSesionPage/EditSesionPage";
-
-
+import { 
+  getSessions, 
+  addSession, 
+  deleteSession, 
+  updateSession 
+} from "../../services/sessionService";
 
 function SesionesPage() {
-  const [sesiones, setSesiones] = useState([
-    {
-      id: 1,
-      fecha: "2025-05-07T10:00:00",
-      fechaDePago: "2025-10-09T18:00:00",
-      estado: "Pagado",
-      paciente: { nombre: "Juan Pérez" },
-      precio: 1500,
-      adjunto: "recibo-juan.pdf",
-    },
-    {
-      id: 2,
-      fecha: "2025-10-08T14:30:00",
-      fechaDePago: null,
-      estado: "Pagado",
-      paciente: { nombre: "María García" },
-      precio: 2000,
-      adjunto: null,
-    },
-    {
-      id: 3,
-      fecha: "2025-10-09T09:00:00",
-      fechaDePago: null,
-      estado: "Pendiente",
-      paciente: { nombre: "Carlos López" },
-      precio: 1000,
-      adjunto: null,
-    },
-  ]);
-
+  const [sesiones, setSesiones] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filtros, setFiltros] = useState({
     estado: "",
     busqueda: "",
@@ -51,34 +27,51 @@ function SesionesPage() {
   const [view, setView] = useState("list");
   const [selectedSesion, setSelectedSesion] = useState(null);
 
-  const handleCreate = (nuevaSesion) => {
-    setSesiones((prev) => [...prev, nuevaSesion]);
-    setView("list");
-  };
 
-  const handleUpdate = (editada) => {
-    setSesiones((prev) => prev.map((s) => (s.id === editada.id ? editada : s)));
-    setView("list");
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("¿Seguro que querés eliminar esta sesión?")) {
-      setSesiones((prev) => prev.filter((s) => s.id !== id));
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getSessions();
+      setSesiones(data);
+      setLoading(false);
     }
+    fetchData();
+  }, []);
+
+
+  const handleCreate = async (nuevaSesion) => {
+    const creada = await addSession(nuevaSesion);
+    setSesiones((prev) => [...prev, creada]);
+    setView("list");
   };
+
+  const handleUpdate = async (editada) => {
+    const actualizada = await updateSession(editada.id, editada);
+    setSesiones((prev) =>
+      prev.map((s) => (s.id === actualizada.id ? actualizada : s))
+    );
+    setView("list");
+  };
+
+  const handleDelete = async (id) => {
+    await deleteSession(id);
+    setSesiones((prev) => prev.filter((s) => s.id !== id));
+  };
+
+
+  const handleMarkAsPaid = async (id, fechaPago) => {
+    const actualizada = await updateSession(id, {
+      fechaDePago: fechaPago,
+      estado: "Pagado",
+    });
+    setSesiones((prev) =>
+      prev.map((s) => (s.id === id ? actualizada : s))
+    );
+  };
+
 
   const handleFilterChange = (filtrosRecibidos) => {
     setFiltros(filtrosRecibidos);
   };
-
-  const handleMarkAsPaid = (id, fechaPago) => {
-  setSesiones((prev) =>
-    prev.map((s) =>
-      s.id === id ? { ...s, fechaDePago: fechaPago, estado: "Pagado" } : s
-    )
-  );
-};
-
 
   const sesionesFiltradas = sesiones.filter((s) => {
     const matchEstado = filtros.estado === "" || s.estado === filtros.estado;
@@ -100,10 +93,11 @@ function SesionesPage() {
   });
 
 
+  if (loading) return <p>Cargando sesiones...</p>;
+
   if (view === "create") {
     return <NewSesionPage onCreate={handleCreate} onCancel={() => setView("list")} />;
   }
-
 
   if (view === "edit" && selectedSesion) {
     return (
@@ -114,7 +108,6 @@ function SesionesPage() {
       />
     );
   }
-
 
   return (
     <div className={styles.container}>

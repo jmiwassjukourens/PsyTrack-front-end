@@ -1,9 +1,9 @@
 import styles from "./SessionChip.module.css";
 
 import { useState } from "react";
-import { CancelModal } from "../CancelModal/CancelModal";
-import { PayModal } from "../PayModal/PayModal";
-import { RescheduleModal } from "../RescheduleModal/RescheduleModal";
+import { CancelModal } from "../Modals/CancelModal/CancelModal";
+import { PayModal } from "../Modals/PayModal/PayModal";
+import { RescheduleModal } from "../Modals/RescheduleModal/RescheduleModal";
 
 export default function SessionChip({ session, onCancel, onMarkPaid, onReschedule }) {
   const [openCancel, setOpenCancel] = useState(false);
