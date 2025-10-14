@@ -16,7 +16,7 @@ function FiltersBar({ onFilterChange }) {
   const [activeSesion, setActiveSesion] = useState(true);
   const [activePago, setActivePago] = useState(false);
 
-  const [mostrarFiltros, setMostrarFiltros] = useState(true);
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
 
   const handleFilter = () => {
     onFilterChange?.({

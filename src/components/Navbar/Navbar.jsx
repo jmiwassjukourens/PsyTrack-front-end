@@ -25,10 +25,9 @@ function Navbar() {
           </button>
 
           <ul className={styles.navList} >
-            <li><Link to="/dashboard" onClick={toggleMenu}>Inicio</Link></li>
+            <li><Link to="/agenda" onClick={toggleMenu}>Agenda</Link></li>
             <li><Link to="/sesiones" onClick={toggleMenu}>Sesiones</Link></li>
             <li><Link to="/reportes" onClick={toggleMenu}>Reportes</Link></li>
-            <li><Link to="/agenda" onClick={toggleMenu}>Agenda</Link></li>
             <li><Link to="/notificaciones" onClick={toggleMenu}>Notificaciones</Link></li>
             <li><button className={styles.logout} onClick={logout}>Cerrar sesión</button></li>
           </ul>

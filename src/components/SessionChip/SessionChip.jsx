@@ -3,10 +3,12 @@ import styles from "./SessionChip.module.css";
 import { useState } from "react";
 import { CancelModal } from "../CancelModal/CancelModal";
 import { PayModal } from "../PayModal/PayModal";
+import { RescheduleModal } from "../RescheduleModal/RescheduleModal";
 
-export default function SessionChip({ session, onCancel, onMarkPaid }) {
+export default function SessionChip({ session, onCancel, onMarkPaid, onReschedule }) {
   const [openCancel, setOpenCancel] = useState(false);
   const [openPay, setOpenPay] = useState(false);
+  const [openReschedule, setOpenReschedule] = useState(false);
 
   const handleConfirmCancel = (data) => {
     onCancel(session.id, data);
@@ -17,6 +19,12 @@ export default function SessionChip({ session, onCancel, onMarkPaid }) {
     const fechaISO = new Date(data.fechaPago).toISOString();
     onMarkPaid(session.id, fechaISO, data.monto);
     setOpenPay(false);
+  };
+
+  const handleConfirmReschedule = (data) => {
+    const nuevaFechaISO = new Date(data.nuevaFecha).toISOString();
+    onReschedule(session.id, nuevaFechaISO);
+    setOpenReschedule(false);
   };
 
   const time = new Date(session.fecha).toLocaleTimeString([], {
@@ -35,8 +43,9 @@ export default function SessionChip({ session, onCancel, onMarkPaid }) {
         </div>
 
         <div className={styles.actions}>
+ 
           <button
-            className={styles.payBtn}
+            className={styles.btn_icon}
             title={session.fechaDePago ? "Ya marcado como pagado" : "Registrar pago"}
             disabled={!!session.fechaDePago}
             onClick={() => setOpenPay(true)}
@@ -44,8 +53,18 @@ export default function SessionChip({ session, onCancel, onMarkPaid }) {
             💰
           </button>
 
+ 
           <button
-            className={styles.delBtn}
+            className={styles.rescheduleBtn}
+            title="Reprogramar sesión"
+            onClick={() => setOpenReschedule(true)}
+          >
+            📅
+          </button>
+
+
+          <button
+            className={styles.rescheduleBtn}
             title="Cancelar sesión"
             onClick={() => setOpenCancel(true)}
           >
@@ -65,6 +84,13 @@ export default function SessionChip({ session, onCancel, onMarkPaid }) {
         open={openPay}
         onClose={() => setOpenPay(false)}
         onConfirm={handleConfirmPay}
+        sesion={session}
+      />
+
+      <RescheduleModal
+        open={openReschedule}
+        onClose={() => setOpenReschedule(false)}
+        onConfirm={handleConfirmReschedule}
         sesion={session}
       />
     </>

@@ -28,16 +28,43 @@
   list-style: none;
   display: flex;
   gap: 20px;
+  z-index: 1000000;
 }
 
-.navList li a, .logout {
+.navList:hover {
+  text-decoration: none;
+}
+
+.navList li a,
+.logout {
   color: #FFFFFF;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative; 
 }
 
-.navList li a:hover, .logout:hover {
+
+.navList li a::after {
+  content: "";
+  position: absolute;
+  bottom: -3px; 
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #FFEEDB; 
+  transition: width 0.3s ease-in-out;
+  border-radius: 2px;
+}
+
+
+.navList li a:hover::after {
+  width: 100%;
+}
+
+
+.navList li a:hover,
+.logout:hover {
   color: #FFEEDB;
 }
 
@@ -56,15 +83,15 @@
     left: 0;
     width: 100%;
     overflow: hidden;
-    max-height: 0; 
-    padding: 0 1rem; 
+    max-height: 0;
+    padding: 0 1rem;
     opacity: 0;
     transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
   }
 
   .active .navList {
-    max-height: 500px; 
-    padding: 1rem; 
+    max-height: 500px;
+    padding: 1rem;
     opacity: 1;
   }
 
@@ -72,14 +99,14 @@
     display: block;
   }
 
-  .logo{
+  .logo {
     width: 20vw;
     margin-left: -2vw;
   }
 
   .navList li {
     opacity: 0;
-    transform: translateY(-10px); 
+    transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
 

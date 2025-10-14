@@ -22,11 +22,43 @@ export function CancelModal({ open, onClose, onConfirm, sesion }) {
   if (!sesion) return null;
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Cancelar sesión</DialogTitle>
-      <DialogContent>
-        <p>
-          Estás cancelando la sesión de <strong>{sesion.paciente.nombre}</strong> el{" "}
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+      PaperProps={{
+        style: {
+          borderRadius: "16px",
+          padding: "8px 0",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+          backgroundColor: "#fff",
+        },
+      }}
+    >
+      <DialogTitle
+        style={{
+          fontWeight: 600,
+          fontSize: "1.3rem",
+          textAlign: "center",
+          color: "#c62828",
+        }}
+      >
+        Cancelar sesión
+      </DialogTitle>
+
+      <DialogContent
+        dividers
+        style={{
+          padding: "16px 24px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+        }}
+      >
+        <p style={{ fontSize: "0.95rem", color: "#333" }}>
+          Estás cancelando la sesión de{" "}
+          <strong>{sesion.paciente.nombre}</strong> el{" "}
           {new Date(sesion.fecha).toLocaleString()}.
         </p>
 
@@ -63,9 +95,23 @@ export function CancelModal({ open, onClose, onConfirm, sesion }) {
         )}
       </DialogContent>
 
-      <DialogActions>
+      <DialogActions
+        style={{
+          padding: "12px 20px",
+          justifyContent: "flex-end",
+          gap: "8px",
+        }}
+      >
         <Button onClick={onClose}>Cerrar</Button>
-        <Button onClick={handleConfirm} color="error" variant="contained">
+        <Button
+          onClick={handleConfirm}
+          color="error"
+          variant="contained"
+          style={{
+            textTransform: "none",
+            fontWeight: 600,
+          }}
+        >
           Confirmar cancelación
         </Button>
       </DialogActions>
