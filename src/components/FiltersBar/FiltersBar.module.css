@@ -1,5 +1,5 @@
 .filtrosWrapper {
-  background-color: #fff;
+  background-color: #fef8f0;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 1.2rem;
@@ -21,8 +21,8 @@
 }
 
 .toggleBtn {
-  background-color: #ff914d; /* naranja principal */
-  color: #fff;
+  background-color: #ff914d; 
+  color: #fef8f0;
   border: none;
   border-radius: 6px;
   padding: 0.4rem 1rem;
@@ -32,7 +32,7 @@
 }
 
 .toggleBtn.active {
-  background-color: #ff7b2f; /* naranja más oscuro para activo */
+  background-color: #ff7b2f; 
 }
 
 .toggleBtn:hover {
@@ -52,7 +52,7 @@
 }
 
 .section {
-  background-color: #fff4eb; /* fondo naranja suave */
+  background-color: #fff4eb; 
   padding: 1rem 1.2rem;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -64,7 +64,7 @@
   gap: 0.6rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #ff914d; /* naranja principal */
+  color: #ff914d; 
 }
 
 .switch {
@@ -99,13 +99,13 @@
   width: 16px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
+  background-color: #fef8f0;
   border-radius: 50%;
   transition: 0.4s;
 }
 
 .switch input:checked + .slider {
-  background-color: #ff914d; /* naranja al activar */
+  background-color: #ff914d; 
 }
 
 .switch input:checked + .slider:before {
@@ -119,7 +119,7 @@ input[type="date"] {
   padding: 0.6rem 0.8rem;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #fef8f0;
   transition: all 0.2s ease;
   font-size: 0.9rem;
 }
@@ -140,7 +140,7 @@ select:disabled {
 
 .btnFiltrar, .btnLimpiar {
   background-color: #ff914d;
-  color: white;
+  color: #fef8f0;
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.2rem;
@@ -184,7 +184,7 @@ select:disabled {
 
 .atajosTiempo button:hover {
   background-color: #ff914d;
-  color: #fff;
+  color: #fef8f0;
   transform: translateY(-2px);
 }
 

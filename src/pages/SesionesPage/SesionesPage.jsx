@@ -4,10 +4,10 @@ import styles from "./SesionesPage.module.css";
 import SessionCards from "../../components/SessionCards/SessionCards";
 import NewSessionButton from "../../components/NewSessionButton/NewSessionButton";
 import FiltersBar from "../../components/FiltersBar/FiltersBar";
-import EditSesionPage from "../EditSesionPage/EditSesionPage";
+import EditSesionModal from "../../components/Modals/EditSesionModal/EditSesionModal"; 
 import SessionModal from "../../components/Modals/SessionModal/SessionModal"; 
 import { getSessions, addSession, deleteSession, updateSession } from "../../services/sessionService";
-
+ 
 function SesionesPage() {
 const [sesiones, setSesiones] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -132,7 +132,7 @@ useEffect(() => {
 
   if (view === "edit" && selectedSesion)
     return (
-      <EditSesionPage
+      <EditSesionModal
         sesion={selectedSesion}
         onUpdate={handleUpdate}
         onCancel={() => setView("list")}

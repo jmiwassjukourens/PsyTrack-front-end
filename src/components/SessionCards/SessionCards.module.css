@@ -9,9 +9,13 @@
   animation: fadeInUp 0.8s ease-in-out;
 }
 
+input{
+  background-color:#fef8f0 !important;
+}
+
 
 .card {
-  background-color: #fff;
+  background-color: #fef8f0;
   border-radius: 12px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   padding: 1.2rem 1.5rem;
@@ -43,7 +47,7 @@
 .badge {
   padding: 0.3rem 0.8rem;
   border-radius: 8px;
-  color: #fff;
+  color: #fef8f0;
   font-weight: 500;
   font-size: 0.9rem;
 }
