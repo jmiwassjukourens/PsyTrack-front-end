@@ -1,14 +1,17 @@
 import styles from "./SessionChip.module.css";
-
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { CancelModal } from "../Modals/CancelModal/CancelModal";
 import { PayModal } from "../Modals/PayModal/PayModal";
 import { RescheduleModal } from "../Modals/RescheduleModal/RescheduleModal";
 
+
+
 export default function SessionChip({ session, onCancel, onMarkPaid, onReschedule }) {
   const [openCancel, setOpenCancel] = useState(false);
   const [openPay, setOpenPay] = useState(false);
   const [openReschedule, setOpenReschedule] = useState(false);
+  const navigate = useNavigate();
 
   const handleConfirmCancel = (data) => {
     onCancel(session.id, data);
@@ -32,28 +35,30 @@ export default function SessionChip({ session, onCancel, onMarkPaid, onReschedul
     minute: "2-digit",
   });
 
+const handlePacienteClick = () => {
+  const nombre = encodeURIComponent(session.paciente?.nombre || "");
+  const fecha = encodeURIComponent(session.fecha);
+  navigate(`/sesiones?paciente=${nombre}&fecha=${fecha}`);
+};
+
   return (
     <>
       <div className={`${styles.chip} ${styles[session.estado?.toLowerCase() || "pendiente"]}`}>
         <div className={styles.left}>
-          <div className={styles.name}>{session.paciente?.nombre || "—"}</div>
+          <div
+            className={styles.name}
+            onClick={handlePacienteClick}
+            style={{ cursor: "pointer" }}
+            title="Ver sesiones de este paciente"
+          >
+            {session.paciente?.nombre || "—"}
+          </div>
           <div className={styles.meta}>
             <span className={styles.time}>{time}</span>
           </div>
         </div>
 
         <div className={styles.actions}>
- 
-          <button
-            className={styles.btn_icon}
-            title={session.fechaDePago ? "Ya marcado como pagado" : "Registrar pago"}
-            disabled={!!session.fechaDePago}
-            onClick={() => setOpenPay(true)}
-          >
-            💰
-          </button>
-
- 
           <button
             className={styles.rescheduleBtn}
             title="Reprogramar sesión"
@@ -61,7 +66,6 @@ export default function SessionChip({ session, onCancel, onMarkPaid, onReschedul
           >
             📅
           </button>
-
 
           <button
             className={styles.rescheduleBtn}
@@ -80,12 +84,12 @@ export default function SessionChip({ session, onCancel, onMarkPaid, onReschedul
         sesion={session}
       />
 
-        <PayModal
-            open={openPay}
-            onClose={() => setOpenPay(false)}
-            onConfirm={handleConfirmPay}
-            sesion={session}
-        />
+      <PayModal
+        open={openPay}
+        onClose={() => setOpenPay(false)}
+        onConfirm={handleConfirmPay}
+        sesion={session}
+      />
 
       <RescheduleModal
         open={openReschedule}

@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { FiFilter } from "react-icons/fi";
-import styles from "./FiltersBar.module.css";
+import styles from "./FiltersBar.module.css"; 
 
-function FiltersBar({ onFilterChange }) {
+function FiltersBar({ 
+  onFilterChange, 
+  defaultBusqueda = "", 
+  defaultFechaDesde = "", 
+  defaultFechaHasta = "" 
+})  {
   const [estado, setEstado] = useState("");
-  const [busqueda, setBusqueda] = useState("");
+  const [busqueda, setBusqueda] = useState(defaultBusqueda || "");
   const [fechaDesde, setFechaDesde] = useState("");
   const [fechaHasta, setFechaHasta] = useState("");
   const [fechaPagoDesde, setFechaPagoDesde] = useState("");
   const [fechaPagoHasta, setFechaPagoHasta] = useState("");
-
 
   const [activeBusqueda, setActiveBusqueda] = useState(true);
   const [activeEstado, setActiveEstado] = useState(true);
@@ -18,15 +22,38 @@ function FiltersBar({ onFilterChange }) {
 
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
 
-  const handleFilter = () => {
-    onFilterChange?.({
-      estado: activeEstado ? estado : "",
-      busqueda: activeBusqueda ? busqueda : "",
-      fechaDesde: activeSesion ? fechaDesde : "",
-      fechaHasta: activeSesion ? fechaHasta : "",
-      fechaPagoDesde: activePago ? fechaPagoDesde : "",
-      fechaPagoHasta: activePago ? fechaPagoHasta : "",
-    });
+
+useEffect(() => {
+  setBusqueda(defaultBusqueda || "");
+  setFechaDesde(defaultFechaDesde || "");
+  setFechaHasta(defaultFechaHasta || "");
+
+  handleFilter({
+    estado,
+    busqueda: defaultBusqueda || "",
+    fechaDesde: defaultFechaDesde || "",
+    fechaHasta: defaultFechaHasta || "",
+    fechaPagoDesde,
+    fechaPagoHasta,
+    activeBusqueda,
+    activeEstado,
+    activeSesion,
+    activePago,
+  });
+}, [defaultBusqueda, defaultFechaDesde, defaultFechaHasta]);
+
+
+  const handleFilter = (override) => {
+
+    const payload = {
+      estado: override?.activeEstado ? override?.estado ?? estado : "",
+      busqueda: override?.activeBusqueda ? override?.busqueda ?? busqueda : "",
+      fechaDesde: override?.activeSesion ? override?.fechaDesde ?? fechaDesde : "",
+      fechaHasta: override?.activeSesion ? override?.fechaHasta ?? fechaHasta : "",
+      fechaPagoDesde: override?.activePago ? override?.fechaPagoDesde ?? fechaPagoDesde : "",
+      fechaPagoHasta: override?.activePago ? override?.fechaPagoHasta ?? fechaPagoHasta : "",
+    };
+    onFilterChange?.(payload);
   };
 
   const handleClear = () => {
@@ -36,6 +63,15 @@ function FiltersBar({ onFilterChange }) {
     setFechaHasta("");
     setFechaPagoDesde("");
     setFechaPagoHasta("");
+
+    onFilterChange?.({
+      estado: "",
+      busqueda: "",
+      fechaDesde: "",
+      fechaHasta: "",
+      fechaPagoDesde: "",
+      fechaPagoHasta: "",
+    });
   };
 
   const setAtajo = (tipo) => {
@@ -60,8 +96,18 @@ function FiltersBar({ onFilterChange }) {
       default:
         break;
     }
-    setFechaDesde(desde.toISOString().split("T")[0]);
-    setFechaHasta(hoy.toISOString().split("T")[0]);
+    const desdeStr = desde.toISOString().split("T")[0];
+    const hastaStr = hoy.toISOString().split("T")[0];
+    setFechaDesde(desdeStr);
+    setFechaHasta(hastaStr);
+    onFilterChange?.({
+      estado,
+      busqueda,
+      fechaDesde: desdeStr,
+      fechaHasta: hastaStr,
+      fechaPagoDesde,
+      fechaPagoHasta,
+    });
   };
 
   const filtrosActivos =
@@ -88,14 +134,24 @@ function FiltersBar({ onFilterChange }) {
 
       {mostrarFiltros && (
         <div className={styles.filtrosGenerales}>
-  
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
               <label className={styles.switch}>
                 <input
                   type="checkbox"
                   checked={activeBusqueda}
-                  onChange={() => setActiveBusqueda(!activeBusqueda)}
+                  onChange={() => {
+                    setActiveBusqueda((p) => !p);
+                    // aplicar cambio inmediato
+                    onFilterChange?.({
+                      estado,
+                      busqueda: !activeBusqueda ? busqueda : "",
+                      fechaDesde,
+                      fechaHasta,
+                      fechaPagoDesde,
+                      fechaPagoHasta,
+                    });
+                  }}
                 />
                 <span className={styles.slider}></span>
               </label>
@@ -105,7 +161,12 @@ function FiltersBar({ onFilterChange }) {
               type="text"
               placeholder="Buscar por nombre..."
               value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
+              onChange={(e) => {
+                setBusqueda(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleFilter();
+              }}
               className={styles.inputBusqueda}
               disabled={!activeBusqueda}
             />
@@ -117,7 +178,17 @@ function FiltersBar({ onFilterChange }) {
                 <input
                   type="checkbox"
                   checked={activeEstado}
-                  onChange={() => setActiveEstado(!activeEstado)}
+                  onChange={() => {
+                    setActiveEstado((p) => !p);
+                    onFilterChange?.({
+                      estado: !activeEstado ? estado : "",
+                      busqueda,
+                      fechaDesde,
+                      fechaHasta,
+                      fechaPagoDesde,
+                      fechaPagoHasta,
+                    });
+                  }}
                 />
                 <span className={styles.slider}></span>
               </label>
@@ -135,14 +206,23 @@ function FiltersBar({ onFilterChange }) {
             </select>
           </div>
 
-
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
               <label className={styles.switch}>
                 <input
                   type="checkbox"
                   checked={activeSesion}
-                  onChange={() => setActiveSesion(!activeSesion)}
+                  onChange={() => {
+                    setActiveSesion((p) => !p);
+                    onFilterChange?.({
+                      estado,
+                      busqueda,
+                      fechaDesde: !activeSesion ? fechaDesde : "",
+                      fechaHasta: !activeSesion ? fechaHasta : "",
+                      fechaPagoDesde,
+                      fechaPagoHasta,
+                    });
+                  }}
                 />
                 <span className={styles.slider}></span>
               </label>
@@ -168,7 +248,9 @@ function FiltersBar({ onFilterChange }) {
                 />
               </label>
               <button
-                onClick={handleFilter}
+                onClick={() =>
+                  handleFilter()
+                }
                 className={styles.btnFiltrar}
                 disabled={!activeSesion}
               >
@@ -184,7 +266,17 @@ function FiltersBar({ onFilterChange }) {
                 <input
                   type="checkbox"
                   checked={activePago}
-                  onChange={() => setActivePago(!activePago)}
+                  onChange={() => {
+                    setActivePago((p) => !p);
+                    onFilterChange?.({
+                      estado,
+                      busqueda,
+                      fechaDesde,
+                      fechaHasta,
+                      fechaPagoDesde: !activePago ? fechaPagoDesde : "",
+                      fechaPagoHasta: !activePago ? fechaPagoHasta : "",
+                    });
+                  }}
                 />
                 <span className={styles.slider}></span>
               </label>

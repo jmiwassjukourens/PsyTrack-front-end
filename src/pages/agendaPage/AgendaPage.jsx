@@ -28,11 +28,21 @@ export default function AgendaPage() {
     setSessions(s);
   };
 
-  const handleAdd = async (payload) => {
+const handleAdd = async (payload) => {
+  if (Array.isArray(payload)) {
+    const nuevas = [];
+    for (const sesion of payload) {
+      const newS = await addSession(sesion);
+      nuevas.push(newS);
+    }
+    setSessions((prev) => [...prev, ...nuevas]);
+  } else {
     const newS = await addSession(payload);
     setSessions((prev) => [...prev, newS]);
-    setModalOpen(false);
-  };
+  }
+
+  setModalOpen(false);
+};
 
   const handleDelete = async (id) => {
     if (!confirm("¿Eliminar sesión?")) return;
@@ -47,7 +57,7 @@ export default function AgendaPage() {
     );
   };
 
-  // 🔹 Aplicamos el filtro según el rango seleccionado
+
   const filteredSessions = sessions.filter((s) => {
     const fecha = new Date(s.fecha).toISOString().slice(0, 10);
     return fecha >= rangeStart && fecha <= rangeEnd;

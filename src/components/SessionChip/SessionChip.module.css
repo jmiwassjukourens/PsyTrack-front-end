@@ -16,9 +16,32 @@
 
 .name {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: #333;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
 }
+
+.name::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0%;
+  height: 2px;
+  background-color: #cc6600; 
+  transition: width 0.4s ease;
+}
+
+.name:hover {
+  color: #cc6600;
+}
+
+.name:hover::after {
+  width: 100%;
+}
+
 
 .meta {
   display: flex;
@@ -26,6 +49,7 @@
   font-size: 0.82rem;
   color: #666;
 }
+
 
 .actions {
   display: flex;

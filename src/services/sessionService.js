@@ -5,7 +5,7 @@ let sessions = [
     fecha: "2025-10-10T10:00:00",
     fechaDePago: "2025-10-09T18:00:00",
     estado: "Pagado",
-    paciente: { nombre: "Juan Pérez" },
+    paciente: { nombre: "Juan Pérez de la Cruz" },
     precio: 1500,
     adjunto: "recibo-juan.pdf",
   },
