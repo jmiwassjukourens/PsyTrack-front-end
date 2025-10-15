@@ -47,6 +47,7 @@ function Navbar() {
                 )}
               </Link>
             </li>
+            <li><Link to="/pacientes" onClick={toggleMenu}>Mis Pacientes</Link></li>
             <li>
               <button className={styles.logout} onClick={logout}>
                 Cerrar sesión

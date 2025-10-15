@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import NotFound from "./components/NotFound/NotFound";
 import SesionesPage from "./pages/SesionesPage/SesionesPage";
+import PatientsPage from "./pages/PatientsPage/PatientsPage";
 import AgendaPage from "./pages/AgendaPage/AgendaPage";
 import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
 
@@ -47,6 +48,14 @@ function App() {
               element={
                 <RequireAuth>
                   <NotificationsPage /> 
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/pacientes"
+              element={
+                <RequireAuth>
+                  <PatientsPage />
                 </RequireAuth>
               }
             />
