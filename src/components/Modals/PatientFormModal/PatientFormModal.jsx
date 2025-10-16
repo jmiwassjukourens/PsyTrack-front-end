@@ -7,7 +7,7 @@ export default function PatientFormModal({ open, onClose, onSubmit, initialData 
     dni: "",
     email: "",
     phone: "",
-    debt: 0,
+    debt: "",
   });
 
   useEffect(() => {
@@ -64,9 +64,9 @@ export default function PatientFormModal({ open, onClose, onSubmit, initialData 
             onChange={handleChange}
           />
           <input
-            type="number"
+            type="text"
             name="debt"
-            placeholder="Deuda (0 si no tiene)"
+            placeholder="Deuda"
             value={form.debt}
             onChange={handleChange}
           />

@@ -13,6 +13,7 @@ export default function PatientsPage() {
   const [filterName, setFilterName] = useState("");
   const [filterDebt, setFilterDebt] = useState(false);
   const [openForm, setOpenForm] = useState(false);
+  const [editingPatient, setEditingPatient] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState(null);
 
@@ -59,8 +60,23 @@ export default function PatientsPage() {
     setOpenForm(false);
   };
 
+  const handleEditPatient = (updatedPatient) => {
+    setPatients((prev) =>
+      prev.map((p) => (p.id === updatedPatient.id ? updatedPatient : p))
+    );
+    setEditingPatient(null);
+    setOpenForm(false);
+  };
+
+  const handleEdit = (patient) => {
+    setEditingPatient(patient);
+    setOpenForm(true);
+  };
+
   const handleViewPending = (patient) => {
-    navigate(`/sesiones?estado=Pendiente&&paciente=${encodeURIComponent(patient.name)}`);
+    navigate(
+      `/sesiones?estado=Pendiente&paciente=${encodeURIComponent(patient.name)}`
+    );
   };
 
   const handleViewHistory = (patient) => {
@@ -82,7 +98,13 @@ export default function PatientsPage() {
         <button className={styles.notifyAllBtn} onClick={handleNotifyAll}>
           📢 Notificar a todos los pacientes con deuda
         </button>
-        <button className={styles.addBtn} onClick={() => setOpenForm(true)}>
+        <button
+          className={styles.addBtn}
+          onClick={() => {
+            setEditingPatient(null);
+            setOpenForm(true);
+          }}
+        >
           ➕ Dar alta paciente
         </button>
       </div>
@@ -92,7 +114,7 @@ export default function PatientsPage() {
           <PatientCard
             key={p.id}
             patient={p}
-            onEdit={() => handleEdit(p.id)}
+            onEdit={() => handleEdit(p)}
             onDelete={() => handleDelete(p.id)}
             onViewPending={() => handleViewPending(p)}
             onViewHistory={() => handleViewHistory(p)}
@@ -103,8 +125,12 @@ export default function PatientsPage() {
       {openForm && (
         <PatientFormModal
           open={openForm}
-          onClose={() => setOpenForm(false)}
-          onSubmit={handleAddPatient}
+          onClose={() => {
+            setOpenForm(false);
+            setEditingPatient(null);
+          }}
+          onSubmit={editingPatient ? handleEditPatient : handleAddPatient}
+          initialData={editingPatient}
         />
       )}
 
