@@ -2,36 +2,57 @@ import { useEffect, useState } from "react";
 import styles from "./NotificationsPage.module.css";
 import NotificationCard from "../../components/NotificationCard/NotificationCard";
 import { notificationsService } from "../../services/notificationsService";
-import ConfirmModal from "../../components/Modals/confirmDeleteNotificationModal/ConfirmModal";
+import ConfirmModal from "../../components/Modals/ConfirmModal/ConfirmModal"; 
 import { motion } from "framer-motion";
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [onConfirmAction, setOnConfirmAction] = useState(null);
+  const [modalConfig, setModalConfig] = useState({
+    show: false,
+    title: "",
+    message: "",
+    confirmText: "Confirmar",
+    confirmColor: "primary",
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     const sub = notificationsService.getNotifications().subscribe(setNotifications);
     return () => sub.unsubscribe();
   }, []);
 
+  const openConfirmModal = (config) => setModalConfig({ ...config, show: true });
+
+  const closeModal = () =>
+    setModalConfig((prev) => ({
+      ...prev,
+      show: false,
+    }));
+
   const confirmDeleteAll = () => {
-    setModalMessage("¿Seguro que querés eliminar todas las notificaciones?");
-    setOnConfirmAction(() => () => {
-      notificationsService.deleteAll();
-      setShowModal(false);
+    openConfirmModal({
+      title: "Eliminar todas las notificaciones",
+      message: "¿Seguro que querés eliminar todas las notificaciones?",
+      confirmText: "Eliminar todas",
+      confirmColor: "danger",
+      onConfirm: () => {
+        notificationsService.deleteAll();
+        closeModal();
+      },
     });
-    setShowModal(true);
   };
 
   const confirmDeleteOne = (id) => {
-    setModalMessage("¿Eliminar esta notificación?");
-    setOnConfirmAction(() => () => {
-      notificationsService.deleteNotification(id);
-      setShowModal(false);
+    openConfirmModal({
+      title: "🗑️ Eliminar notificación",
+      message: "¿Seguro que querés eliminar esta notificación?",
+      confirmText: "Eliminar",
+      confirmColor: "danger",
+      onConfirm: () => {
+        notificationsService.deleteNotification(id);
+        closeModal();
+      },
     });
-    setShowModal(true);
   };
 
   const handleMarkAllAsRead = () => notificationsService.markAllAsRead();
@@ -65,7 +86,9 @@ export default function NotificationsPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             <p>No tenés notificaciones pendientes</p>
-            <span>Volvé más tarde o revisá tus <strong>reportes</strong> 👀</span>
+            <span>
+              Volvé más tarde o revisá tus <strong>reportes</strong> 👀
+            </span>
           </motion.div>
         ) : (
           notifications.map((n) => (
@@ -78,11 +101,15 @@ export default function NotificationsPage() {
         )}
       </div>
 
+      {/* ✅ Modal dinámico reutilizable */}
       <ConfirmModal
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        onConfirm={onConfirmAction}
-        message={modalMessage}
+        show={modalConfig.show}
+        title={modalConfig.title}
+        message={modalConfig.message}
+        confirmText={modalConfig.confirmText}
+        confirmColor={modalConfig.confirmColor}
+        onConfirm={modalConfig.onConfirm}
+        onClose={closeModal}
       />
     </div>
   );

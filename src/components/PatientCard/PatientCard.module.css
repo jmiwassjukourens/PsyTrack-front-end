@@ -1,5 +1,5 @@
 .card {
-  background-color: #fffaf6;
+  background-color: #fef8f0;
   border: 1px solid #f0e1d2;
   border-radius: 10px;
   padding: 1rem;
@@ -16,7 +16,7 @@
 }
 
 .debt {
-  border: 2px solid #e53935;
+  border: 2px solid #81121071;
   animation: pulse 1.5s infinite;
 }
 
@@ -54,4 +54,26 @@
 
 .actions button:hover {
   transform: scale(1.15);
+}
+
+.debt {
+  border-color: #ff4d4d;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 77, 77, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
+  }
+}
+
+.debtText {
+  color: #d9534f;
+  font-weight: bold;
 }

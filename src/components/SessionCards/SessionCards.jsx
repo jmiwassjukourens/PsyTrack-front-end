@@ -2,6 +2,7 @@ import styles from "./SessionCards.module.css";
 import { DeleteModal } from "../Modals/DeleteModal/DeleteModal";
 import { PayModal } from "../Modals/PayModal/PayModal";
 import { useState } from "react";
+import ConfirmModal from "../Modals/ConfirmModal/ConfirmModal";
 
 function SessionCards({ sesiones, onEdit, onDelete, onMarkAsPaid }) {
   const [openDelete, setOpenDelete] = useState(false);
@@ -108,13 +109,23 @@ function SessionCards({ sesiones, onEdit, onDelete, onMarkAsPaid }) {
         ))
       )}
 
+    <ConfirmModal
+      show={openDelete}
+      onClose={() => setOpenDelete(false)}
+      onConfirm={handleConfirmDelete}
+      title="⚠️ Eliminar sesión"
+      message={
+        selectedSession
+          ? `Estás a punto de eliminar permanentemente la sesión de ${selectedSession.paciente.nombre} 
+            con fecha y horario: ${new Date(selectedSession.fecha).toLocaleString()}.
+            Toda la información adjunta (recibos, notas, pagos) se perderá.`
+          : ""
+      }
+      confirmText="Confirmar eliminación"
+      cancelText="Cerrar"
+      confirmColor="danger"
+    />
 
-      <DeleteModal
-        open={openDelete}
-        onClose={() => setOpenDelete(false)}
-        onConfirm={handleConfirmDelete}
-        sesion={selectedSession}
-      />
 
       <PayModal
         open={openPay}

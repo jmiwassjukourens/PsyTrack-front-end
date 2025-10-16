@@ -3,6 +3,7 @@ import styles from "./PatientsPage.module.css";
 import PatientsFilterBar from "../../components/PatientsFilterBar/PatientsFilterBar";
 import PatientCard from "../../components/PatientCard/PatientCard";
 import PatientFormModal from "../../components/Modals/PatientFormModal/PatientFormModal";
+import ConfirmModal from "../../components/Modals/ConfirmModal/ConfirmModal.jsx";
 import { getPatients } from "../../services/PatientService.js";
 
 export default function PatientsPage() {
@@ -11,6 +12,8 @@ export default function PatientsPage() {
   const [filterName, setFilterName] = useState("");
   const [filterDebt, setFilterDebt] = useState(false);
   const [openForm, setOpenForm] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [patientToDelete, setPatientToDelete] = useState(null);
 
   useEffect(() => {
     const data = getPatients();
@@ -38,11 +41,18 @@ export default function PatientsPage() {
     alert("Notificaciones enviadas a todos los pacientes con deuda 💬");
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("¿Seguro que deseas eliminar este paciente?")) {
-      setPatients((prev) => prev.filter((p) => p.id !== id));
-    }
-  };
+const handleDelete = (id) => {
+  const patient = patients.find((p) => p.id === id);
+  setPatientToDelete(patient);
+  setOpenConfirm(true);
+};
+
+const confirmDelete = () => {
+  if (!patientToDelete) return;
+  setPatients((prev) => prev.filter((p) => p.id !== patientToDelete.id));
+  setOpenConfirm(false);
+  setPatientToDelete(null);
+};
 
   const handleAddPatient = (newPatient) => {
     setPatients((prev) => [...prev, newPatient]);
@@ -70,13 +80,15 @@ export default function PatientsPage() {
       </div>
 
       <div className={styles.cardsGrid}>
-        {filtered.map((patient) => (
+        {patients.map((p) => (
           <PatientCard
-            key={patient.id}
-            patient={patient}
-            onDelete={handleDelete}
+            key={p.id}
+            patient={p}
+            onEdit={() => handleEdit(p.id)}
+            onDelete={() => handleDelete(p.id)} 
           />
         ))}
+
       </div>
 
       {openForm && (
@@ -86,6 +98,17 @@ export default function PatientsPage() {
           onSubmit={handleAddPatient}
         />
       )}
+
+      <ConfirmModal
+        show={openConfirm}
+        onClose={() => setOpenConfirm(false)}
+        onConfirm={confirmDelete}
+        title="Eliminar paciente"
+        message={`¿Seguro que deseas eliminar a "${patientToDelete?.name}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        confirmColor="danger"
+      />
     </div>
   );
 }

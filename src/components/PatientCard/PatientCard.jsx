@@ -1,7 +1,13 @@
-import React from "react";
+import {
+  FaBell,
+  FaClock,
+  FaHistory,
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
 import styles from "./PatientCard.module.css";
 
-export default function PatientCard({ patient, onDelete }) {
+export default function PatientCard({ patient, onDelete, onEdit }) {
   const handleNotify = () => {
     alert(`Notificación enviada a ${patient.name}`);
   };
@@ -26,24 +32,24 @@ export default function PatientCard({ patient, onDelete }) {
         <p>DNI: {patient.dni}</p>
         <p>Email: {patient.email}</p>
         <p>Tel: {patient.phone}</p>
-        {hasDebt && <p className={styles.debtText}>💰 Deuda: ${patient.debt}</p>}
+        {hasDebt && <p className={styles.debtText}>Deuda: ${patient.debt}</p>}
       </div>
 
       <div className={styles.actions}>
         <button title="Notificar deuda" onClick={handleNotify}>
-          💬
+          <FaBell />
         </button>
-        <button title="Ver sesiones pendientes" onClick={handlePending}>
-          ⏳
+        <button title="Ver sesiones pendientes de pago" onClick={handlePending}>
+          <FaClock />
         </button>
         <button title="Ver historial de sesiones" onClick={handleHistory}>
-          📜
+          <FaHistory />
         </button>
-        <button title="Editar paciente" onClick={() => alert("Editar...")}>
-          ✏️
+        <button title="Editar paciente" onClick={() => onEdit(patient)}>
+          <FaEdit />
         </button>
-        <button title="Eliminar paciente" onClick={() => onDelete(patient.id)}>
-          🗑️
+        <button title="Eliminar paciente" onClick={onDelete}>
+          <FaTrash />
         </button>
       </div>
     </div>

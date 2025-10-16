@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./PatientFormModal.module.css";
 
-export default function PatientFormModal({ open, onClose, onSubmit }) {
+export default function PatientFormModal({ open, onClose, onSubmit, initialData }) {
   const [form, setForm] = useState({
     name: "",
     dni: "",
@@ -10,13 +10,19 @@ export default function PatientFormModal({ open, onClose, onSubmit }) {
     debt: 0,
   });
 
+  useEffect(() => {
+    if (initialData) setForm(initialData);
+  }, [initialData]);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ id: Date.now(), ...form, debt: Number(form.debt) });
+    const payload = { ...form, debt: Number(form.debt) };
+    if (!initialData) payload.id = Date.now();
+    onSubmit(payload);
   };
 
   if (!open) return null;
@@ -24,7 +30,7 @@ export default function PatientFormModal({ open, onClose, onSubmit }) {
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h3>Dar alta paciente</h3>
+        <h3>{initialData ? "Editar paciente" : "Dar alta paciente"}</h3>
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
@@ -67,7 +73,7 @@ export default function PatientFormModal({ open, onClose, onSubmit }) {
 
           <div className={styles.buttons}>
             <button type="submit" className={styles.saveBtn}>
-              Guardar
+              {initialData ? "Guardar cambios" : "Guardar"}
             </button>
             <button type="button" className={styles.cancelBtn} onClick={onClose}>
               Cancelar
