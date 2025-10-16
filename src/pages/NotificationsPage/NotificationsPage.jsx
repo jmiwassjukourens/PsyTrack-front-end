@@ -101,7 +101,7 @@ export default function NotificationsPage() {
         )}
       </div>
 
-      {/* ✅ Modal dinámico reutilizable */}
+  
       <ConfirmModal
         show={modalConfig.show}
         title={modalConfig.title}

@@ -1,3 +1,4 @@
+/* Wrapper: overflow y padding según lo pediste */
 .gridWrapper {
   width: 100%;
   overflow-x: auto;
@@ -7,16 +8,37 @@
   .gridWrapper {
     padding-bottom: 14vh;
   }
-
 }
 
-.grid {
-  display: grid;
+/* Header de nombres de días (visible en desktop) */
+.weekDayHeader {
+  display: none;
+  grid-template-columns: repeat(7, 1fr);
   gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-bottom: 8px;
+}
+.weekdayCell {
+  font-weight: 600;
+  text-align: center;
+  padding: 8px 6px;
+  color: #444;
 }
 
+/* contenedor principal del calendario (semanas en columna) */
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
+/* una semana como fila */
+.weekRow {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: irá a auto-fit más abajo */
+  gap: 12px;
+}
+
+/* --- Estilos de cada celda (tomados de tu versión) --- */
 .cell {
   background: #fef8f0;
   border-radius: 10px;
@@ -27,6 +49,7 @@
   min-height: 120px;
 }
 
+/* Header dentro de la celda */
 .cellHeader {
   display: flex;
   justify-content: space-between;
@@ -45,6 +68,7 @@
   color: #777;
 }
 
+
 .cellAdd {
   border: none;
   background: #ff914d;
@@ -55,7 +79,6 @@
   cursor: pointer;
   font-weight: 700;
 }
-
 .cellAdd:hover {
   background: #ff7b2f;
   transform: translateY(-2px);
@@ -70,14 +93,68 @@
   overflow: auto;
 }
 
+
 .todayBg {
   background: linear-gradient(90deg, rgba(255,249,241,1) 0%, rgba(255,242,233,1) 100%);
   border-radius: 8px;
   padding: 6px;
 }
 
+
 .emptyText {
   color: #aaa;
   font-size: 0.9rem;
   padding: 4px;
+}
+
+
+.otherMonth {
+  background: rgba(254, 248, 240, 0); 
+  backdrop-filter: blur(4px) saturate(1) grayscale(20%);
+  opacity: 0.95;
+}
+
+
+@media (min-width: 768px) {
+  .weekDayHeader {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .weekdayCell { padding: 10px 6px; text-align: center; }
+
+  .weekRow {
+    grid-template-columns: repeat(7, 1fr); 
+  }
+
+  .cell {
+    min-height: 140px;
+  }
+}
+
+
+@media (max-width: 767px) {
+
+  .weekRow {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px;
+  }
+
+  .cellHeader {
+    padding-bottom: 6px;
+  }
+}
+
+
+.cellBody > .chip {
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
 }
