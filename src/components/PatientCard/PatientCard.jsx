@@ -34,28 +34,44 @@ export default function PatientCard({
       </div>
 
       <div className={styles.actions}>
-        <button title="Notificar deuda" onClick={handleNotify}>
-          <FaBell />
-        </button>
         <button
-          title="Ver sesiones pendientes de pago"
+          className={`${styles.actionBtn} ${styles.notifyBtn}`}
+          onClick={handleNotify}
+        >
+          <FaBell />
+          <span>Notificar</span>
+        </button>
+
+        <button
+          className={`${styles.actionBtn} ${styles.pendingBtn}`}
           onClick={onViewPending}
-          className={styles.pendingBtn}
         >
           <FaClock />
+          <span>Pendientes</span>
         </button>
+
         <button
-          title="Ver historial de sesiones"
+          className={`${styles.actionBtn} ${styles.historyBtn}`}
           onClick={onViewHistory}
-          className={styles.historyBtn}
         >
           <FaHistory />
+          <span>Historial</span>
         </button>
-        <button title="Editar paciente" onClick={() => onEdit(patient)}>
+
+        <button
+          className={`${styles.actionBtn} ${styles.editBtn}`}
+          onClick={() => onEdit(patient)}
+        >
           <FaEdit />
+          <span>Editar</span>
         </button>
-        <button title="Eliminar paciente" onClick={onDelete}>
+
+        <button
+          className={`${styles.actionBtn} ${styles.deleteBtn}`}
+          onClick={onDelete}
+        >
           <FaTrash />
+          <span>Eliminar</span>
         </button>
       </div>
     </div>

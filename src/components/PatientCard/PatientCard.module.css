@@ -39,29 +39,39 @@
 
 .actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.4rem;
-  margin-top: 0.8rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
-.actions button {
-  border: none;
-  background: none;
-  font-size: 1.1rem;
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #fff;
+  border: 1px solid #e0c7aa;
+  color: #444;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #333;
 }
 
-.actions button:hover {
-  transform: scale(1.2);
-  color: #ff914d;
+.actionBtn:hover {
+  background-color: #ffefdc;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.pendingBtn {
-  color: #e67e22;
-}
+.notifyBtn { color: #ff9800; }
+.pendingBtn { color: #e67e22; }
+.historyBtn { color: #00897b; }
+.editBtn { color: #1976d2; }
+.deleteBtn { color: #d9534f; }
 
-.historyBtn {
-  color: #00897b;
+.actionBtn svg {
+  font-size: 1rem;
 }
