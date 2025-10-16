@@ -44,7 +44,7 @@ const handlePacienteClick = () => {
  return (
     <>
       <div className={`${styles.chip} ${styles[session.estado?.toLowerCase() || "pendiente"]}`}>
-        <div className={styles.left}>
+        <div className={styles.left }>
           <div
             className={styles.name}
             onClick={handlePacienteClick}

@@ -9,6 +9,17 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 145, 77, 0.2); }
+  50% { box-shadow: 0 0 18px rgba(255, 145, 77, 0.4); }
+}
+
+
 .left {
   display: flex;
   flex-direction: column;
@@ -33,6 +44,7 @@
   background-color: #cc6600; 
   transition: width 0.4s ease;
 }
+
 
 .name:hover {
   color: #cc6600;
