@@ -4,6 +4,7 @@ import styles from "./FiltersBar.module.css";
 
 function FiltersBar({ 
   onFilterChange, 
+  defaultEstado = "",   
   defaultBusqueda = "", 
   defaultFechaDesde = "", 
   defaultFechaHasta = "" 
@@ -25,11 +26,12 @@ function FiltersBar({
 
 useEffect(() => {
   setBusqueda(defaultBusqueda || "");
+  setEstado(defaultEstado || ""); // 👈 agregar esto
   setFechaDesde(defaultFechaDesde || "");
   setFechaHasta(defaultFechaHasta || "");
 
   handleFilter({
-    estado,
+    estado: defaultEstado || "",
     busqueda: defaultBusqueda || "",
     fechaDesde: defaultFechaDesde || "",
     fechaHasta: defaultFechaHasta || "",
@@ -40,7 +42,8 @@ useEffect(() => {
     activeSesion,
     activePago,
   });
-}, [defaultBusqueda, defaultFechaDesde, defaultFechaHasta]);
+}, [defaultBusqueda, defaultEstado, defaultFechaDesde, defaultFechaHasta]);
+
 
 
   const handleFilter = (override) => {

@@ -26,6 +26,7 @@ const [sesiones, setSesiones] = useState([]);
   const [searchParams] = useSearchParams();
   const pacienteParam = searchParams.get("paciente");
   const fechaParam = searchParams.get("fecha"); 
+  const estadoParam = searchParams.get("estado");
 
   useEffect(() => {
     async function fetchData() {
@@ -38,7 +39,7 @@ const [sesiones, setSesiones] = useState([]);
 
 
 useEffect(() => {
-  if (pacienteParam || fechaParam) {
+  if (pacienteParam || fechaParam || estadoParam) {
     let fechaISO = "";
     if (fechaParam) {
       const fecha = new Date(fechaParam);
@@ -48,12 +49,13 @@ useEffect(() => {
 
     setFiltros((prev) => ({
       ...prev,
+      estado: estadoParam || "", 
       busqueda: pacienteParam || "",
       fechaDesde: fechaISO,
       fechaHasta: fechaISO,
     }));
   }
-}, [pacienteParam, fechaParam]);
+}, [pacienteParam, fechaParam, estadoParam]);
 
 
 
@@ -147,18 +149,16 @@ useEffect(() => {
       </div>
 
       <div className={styles.filtersWrapper}>
+        
         <FiltersBar
           onFilterChange={handleFilterChange}
           defaultBusqueda={pacienteParam || ""}
+          defaultEstado={estadoParam || ""}  
           defaultFechaDesde={
-            fechaParam
-              ? new Date(fechaParam).toISOString().slice(0, 10)
-              : ""
+            fechaParam ? new Date(fechaParam).toISOString().slice(0, 10) : ""
           }
           defaultFechaHasta={
-            fechaParam
-              ? new Date(fechaParam).toISOString().slice(0, 10)
-              : ""
+            fechaParam ? new Date(fechaParam).toISOString().slice(0, 10) : ""
           }
         />
 

@@ -5,6 +5,7 @@ import PatientCard from "../../components/PatientCard/PatientCard";
 import PatientFormModal from "../../components/Modals/PatientFormModal/PatientFormModal";
 import ConfirmModal from "../../components/Modals/ConfirmModal/ConfirmModal.jsx";
 import { getPatients } from "../../services/PatientService.js";
+import { useNavigate } from "react-router-dom";
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState([]);
@@ -15,6 +16,8 @@ export default function PatientsPage() {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const data = getPatients();
     setPatients(data);
@@ -23,17 +26,14 @@ export default function PatientsPage() {
 
   useEffect(() => {
     let temp = [...patients];
-
     if (filterName.trim() !== "") {
       temp = temp.filter((p) =>
         p.name.toLowerCase().includes(filterName.toLowerCase())
       );
     }
-
     if (filterDebt) {
       temp = temp.filter((p) => p.debt > 0);
     }
-
     setFiltered(temp);
   }, [filterName, filterDebt, patients]);
 
@@ -41,22 +41,30 @@ export default function PatientsPage() {
     alert("Notificaciones enviadas a todos los pacientes con deuda 💬");
   };
 
-const handleDelete = (id) => {
-  const patient = patients.find((p) => p.id === id);
-  setPatientToDelete(patient);
-  setOpenConfirm(true);
-};
+  const handleDelete = (id) => {
+    const patient = patients.find((p) => p.id === id);
+    setPatientToDelete(patient);
+    setOpenConfirm(true);
+  };
 
-const confirmDelete = () => {
-  if (!patientToDelete) return;
-  setPatients((prev) => prev.filter((p) => p.id !== patientToDelete.id));
-  setOpenConfirm(false);
-  setPatientToDelete(null);
-};
+  const confirmDelete = () => {
+    if (!patientToDelete) return;
+    setPatients((prev) => prev.filter((p) => p.id !== patientToDelete.id));
+    setOpenConfirm(false);
+    setPatientToDelete(null);
+  };
 
   const handleAddPatient = (newPatient) => {
     setPatients((prev) => [...prev, newPatient]);
     setOpenForm(false);
+  };
+
+  const handleViewPending = (patient) => {
+    navigate(`/sesiones?estado=Pendiente&&paciente=${encodeURIComponent(patient.name)}`);
+  };
+
+  const handleViewHistory = (patient) => {
+    navigate(`/sesiones?paciente=${encodeURIComponent(patient.name)}`);
   };
 
   return (
@@ -80,15 +88,16 @@ const confirmDelete = () => {
       </div>
 
       <div className={styles.cardsGrid}>
-        {patients.map((p) => (
+        {filtered.map((p) => (
           <PatientCard
             key={p.id}
             patient={p}
             onEdit={() => handleEdit(p.id)}
-            onDelete={() => handleDelete(p.id)} 
+            onDelete={() => handleDelete(p.id)}
+            onViewPending={() => handleViewPending(p)}
+            onViewHistory={() => handleViewHistory(p)}
           />
         ))}
-
       </div>
 
       {openForm && (

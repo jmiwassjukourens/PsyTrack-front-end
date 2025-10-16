@@ -7,17 +7,15 @@ import {
 } from "react-icons/fa";
 import styles from "./PatientCard.module.css";
 
-export default function PatientCard({ patient, onDelete, onEdit }) {
+export default function PatientCard({
+  patient,
+  onDelete,
+  onEdit,
+  onViewPending,
+  onViewHistory,
+}) {
   const handleNotify = () => {
     alert(`Notificación enviada a ${patient.name}`);
-  };
-
-  const handlePending = () => {
-    alert(`Mostrando sesiones pendientes de pago de ${patient.name}`);
-  };
-
-  const handleHistory = () => {
-    alert(`Mostrando historial de sesiones de ${patient.name}`);
   };
 
   const hasDebt = patient.debt > 0;
@@ -39,10 +37,18 @@ export default function PatientCard({ patient, onDelete, onEdit }) {
         <button title="Notificar deuda" onClick={handleNotify}>
           <FaBell />
         </button>
-        <button title="Ver sesiones pendientes de pago" onClick={handlePending}>
+        <button
+          title="Ver sesiones pendientes de pago"
+          onClick={onViewPending}
+          className={styles.pendingBtn}
+        >
           <FaClock />
         </button>
-        <button title="Ver historial de sesiones" onClick={handleHistory}>
+        <button
+          title="Ver historial de sesiones"
+          onClick={onViewHistory}
+          className={styles.historyBtn}
+        >
           <FaHistory />
         </button>
         <button title="Editar paciente" onClick={() => onEdit(patient)}>

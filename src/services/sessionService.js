@@ -4,8 +4,8 @@ let sessions = [
     id: 1,
     fecha: "2025-10-10T10:00:00",
     fechaDePago: "2025-10-09T18:00:00",
-    estado: "Pagado",
-    paciente: { nombre: "Juan Pérez de la Cruz" },
+    estado: "Pendiente",
+    paciente: { nombre: "Juan Pérez" },
     precio: 1500,
     adjunto: "recibo-juan.pdf",
   },
@@ -13,8 +13,8 @@ let sessions = [
     id: 2,
     fecha: "2025-10-10T14:30:00",
     fechaDePago: null,
-    estado: "Pendiente",
-    paciente: { nombre: "María Gómez" },
+    estado: "Pagado",
+    paciente: { nombre: "Juan Pérez" },
     precio: 2000,
     adjunto: null,
   },
@@ -23,10 +23,19 @@ let sessions = [
     fecha: "2025-10-10T16:00:00",
     fechaDePago: null,
     estado: "Pendiente",
-    paciente: { nombre: "Lucas Díaz" },
-    precio: 1200,
+    paciente: { nombre: "Carlos Díaz" },
+    precio: 300,
     adjunto: null,
   },
+    {
+    id: 4,
+    fecha: "2025-10-10T16:00:00",
+    fechaDePago: null,
+    estado: "Pagado",
+    paciente: { nombre: "Carlos Díaz" },
+    precio: 1500,
+    adjunto: null,
+  }
 ];
 
 let nextId = 4;
