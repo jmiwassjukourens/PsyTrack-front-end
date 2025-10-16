@@ -10,9 +10,12 @@ import SesionesPage from "./pages/SesionesPage/SesionesPage";
 import PatientsPage from "./pages/PatientsPage/PatientsPage";
 import AgendaPage from "./pages/AgendaPage/AgendaPage";
 import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
+import { RequestProvider } from "./context/RequestContext/RequestContext";
+import GlobalLoader from "./context/RequestContext/GlobalLoader";
 
 function App() {
   return (
+    <RequestProvider>
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
@@ -73,7 +76,9 @@ function App() {
 
         <Footer />
       </BrowserRouter>
+         <GlobalLoader />
     </AuthProvider>
+    </RequestProvider>
   );
 }
 

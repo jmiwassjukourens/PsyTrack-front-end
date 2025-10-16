@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
 
       setUser(data.username);
 
-      window.location.href = "/sesiones";
+      window.location.href = "/agenda";
     } catch (err) {
       alert("Invalid credentials or server error");
       console.error(err);

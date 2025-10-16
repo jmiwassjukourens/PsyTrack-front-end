@@ -69,7 +69,7 @@ const handleAdd = async (payload) => {
         <div className={styles.titleBlock}>
           <h2 className={styles.title}>Agenda</h2>
           <p className={styles.subtitle}>
-            Ve tus sesiones entre dos fechas y gestionalas rápido
+            De la búsqueda a la gestión, en segundos
           </p>
         </div>
 

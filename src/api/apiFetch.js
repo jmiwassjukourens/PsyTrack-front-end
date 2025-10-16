@@ -1,3 +1,4 @@
+import { requestManager } from "../context/RequestContext/RequestContext";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/";
 
@@ -6,8 +7,10 @@ export async function apiFetch(endpoint, options = {}) {
 
   const defaultHeaders = {
     "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {})
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
+
+  requestManager.increment(); 
 
   try {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -22,7 +25,7 @@ export async function apiFetch(endpoint, options = {}) {
       let errorMsg = `Error HTTP: ${res.status}`;
       if (res.status === 401) {
         localStorage.removeItem("token");
-        window.location.href = "/login"; 
+        window.location.href = "/login";
       }
       try {
         const errorData = await res.json();
@@ -36,5 +39,7 @@ export async function apiFetch(endpoint, options = {}) {
   } catch (error) {
     console.error("❌ Error in centralized fetch:", error.message);
     throw error;
+  } finally {
+    requestManager.decrement(); 
   }
 }
