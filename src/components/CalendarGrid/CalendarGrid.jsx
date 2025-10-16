@@ -18,7 +18,7 @@ function buildDates(startIso, endIso) {
   return arr;
 }
 
-export default function CalendarGrid({ rangeStart, rangeEnd, sessions, onCreateForDate, onCancel, onMarkPaid }) {
+export default function CalendarGrid({ rangeStart, rangeEnd, sessions, onCreateForDate, onCancel, onMarkPaid,showActions }) {
   const dates = useMemo(() => buildDates(rangeStart, rangeEnd), [rangeStart, rangeEnd]);
 
   const grouped = useMemo(() => {
@@ -68,6 +68,7 @@ export default function CalendarGrid({ rangeStart, rangeEnd, sessions, onCreateF
                       session={s}
                       onCancel={onCancel}
                       onMarkPaid={(fechaPago) => onMarkPaid(s.id, fechaPago)}
+                      showActions={showActions}
                     />
                   ))
                 )}

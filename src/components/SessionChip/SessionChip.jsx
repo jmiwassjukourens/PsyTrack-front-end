@@ -7,7 +7,7 @@ import { RescheduleModal } from "../Modals/RescheduleModal/RescheduleModal";
 
 
 
-export default function SessionChip({ session, onCancel, onMarkPaid, onReschedule }) {
+export default function SessionChip({ session, onCancel, onMarkPaid, onReschedule,showActions }) {
   const [openCancel, setOpenCancel] = useState(false);
   const [openPay, setOpenPay] = useState(false);
   const [openReschedule, setOpenReschedule] = useState(false);
@@ -41,7 +41,7 @@ const handlePacienteClick = () => {
   navigate(`/sesiones?paciente=${nombre}&fecha=${fecha}`);
 };
 
-  return (
+ return (
     <>
       <div className={`${styles.chip} ${styles[session.estado?.toLowerCase() || "pendiente"]}`}>
         <div className={styles.left}>
@@ -58,23 +58,33 @@ const handlePacienteClick = () => {
           </div>
         </div>
 
-        <div className={styles.actions}>
-          <button
-            className={styles.rescheduleBtn}
-            title="Reprogramar sesión"
-            onClick={() => setOpenReschedule(true)}
-          >
-            📅
-          </button>
+        {showActions && (
+          <div className={styles.actions}>
+            <button
+              className={styles.payBtn}
+              title={session.fechaDePago ? "Ya marcado como pagado" : "Registrar pago"}
+              disabled={!!session.fechaDePago}
+              onClick={() => setOpenPay(true)}
+            >
+              💰
+            </button>
+            <button
+              className={styles.rescheduleBtn}
+              title="Reprogramar sesión"
+              onClick={() => setOpenReschedule(true)}
+            >
+              📅
+            </button>
 
-          <button
-            className={styles.rescheduleBtn}
-            title="Cancelar sesión"
-            onClick={() => setOpenCancel(true)}
-          >
-            🛑
-          </button>
-        </div>
+            <button
+              className={styles.rescheduleBtn}
+              title="Cancelar sesión"
+              onClick={() => setOpenCancel(true)}
+            >
+              🛑
+            </button>
+          </div>
+        )}
       </div>
 
       <CancelModal

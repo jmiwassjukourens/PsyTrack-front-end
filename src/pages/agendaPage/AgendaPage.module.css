@@ -98,3 +98,24 @@
   color: #ff914d;
   background-size: 100% 1px;
 }
+
+.toggleActionsBtn {
+  background-color: #fff5ec;
+  border: 1px solid #ff914d;
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ff914d;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(255, 145, 77, 0.2);
+  margin-top: 2vh;
+}
+
+.toggleActionsBtn:hover {
+  background-color: #ff914d;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 145, 77, 0.3);
+}

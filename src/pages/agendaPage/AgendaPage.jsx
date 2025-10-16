@@ -6,8 +6,6 @@ import AgendaFilterBar from "../../components/CalendarGrid/AgendaFiltersBar";
 import SessionModal from "../../components/Modals/SessionModal/SessionModal";
 import styles from "./AgendaPage.module.css";
 
-
-
 export default function AgendaPage() {
   const today = new Date();
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10);
@@ -18,6 +16,7 @@ export default function AgendaPage() {
   const [rangeEnd, setRangeEnd] = useState(endOfMonth);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalDate, setModalDate] = useState(null);
+  const [showActions, setShowActions] = useState(true); 
 
   useEffect(() => {
     load();
@@ -28,21 +27,20 @@ export default function AgendaPage() {
     setSessions(s);
   };
 
-const handleAdd = async (payload) => {
-  if (Array.isArray(payload)) {
-    const nuevas = [];
-    for (const sesion of payload) {
-      const newS = await addSession(sesion);
-      nuevas.push(newS);
+  const handleAdd = async (payload) => {
+    if (Array.isArray(payload)) {
+      const nuevas = [];
+      for (const sesion of payload) {
+        const newS = await addSession(sesion);
+        nuevas.push(newS);
+      }
+      setSessions((prev) => [...prev, ...nuevas]);
+    } else {
+      const newS = await addSession(payload);
+      setSessions((prev) => [...prev, newS]);
     }
-    setSessions((prev) => [...prev, ...nuevas]);
-  } else {
-    const newS = await addSession(payload);
-    setSessions((prev) => [...prev, newS]);
-  }
-
-  setModalOpen(false);
-};
+    setModalOpen(false);
+  };
 
   const handleDelete = async (id) => {
     if (!confirm("¿Eliminar sesión?")) return;
@@ -57,7 +55,6 @@ const handleAdd = async (payload) => {
     );
   };
 
-
   const filteredSessions = sessions.filter((s) => {
     const fecha = new Date(s.fecha).toISOString().slice(0, 10);
     return fecha >= rangeStart && fecha <= rangeEnd;
@@ -68,28 +65,25 @@ const handleAdd = async (payload) => {
       <div className={styles.header}>
         <div className={styles.titleBlock}>
           <h2 className={styles.title}>Agenda</h2>
-          <p className={styles.subtitle}>
-            De la búsqueda a la gestión, en segundos
-          </p>
+          <br></br>
+            <button
+            className={styles.toggleActionsBtn}
+            onClick={() => setShowActions((prev) => !prev)}
+          >
+            {showActions ? "Ocultar acciones" : "Mostrar acciones"}
+          </button>
         </div>
 
         <div className={styles.controls}>
           <label className={styles.rangeLabel}>
             Desde
-            <input
-              type="date"
-              value={rangeStart}
-              onChange={(e) => setRangeStart(e.target.value)}
-            />
+            <input type="date" value={rangeStart} onChange={(e) => setRangeStart(e.target.value)} />
           </label>
           <label className={styles.rangeLabel}>
             Hasta
-            <input
-              type="date"
-              value={rangeEnd}
-              onChange={(e) => setRangeEnd(e.target.value)}
-            />
+            <input type="date" value={rangeEnd} onChange={(e) => setRangeEnd(e.target.value)} />
           </label>
+
         </div>
       </div>
 
@@ -99,8 +93,6 @@ const handleAdd = async (payload) => {
           setRangeEnd(hasta);
         }}
       />
-
-
 
       <CalendarGrid
         rangeStart={rangeStart}
@@ -112,6 +104,7 @@ const handleAdd = async (payload) => {
         }}
         onDelete={handleDelete}
         onMarkPaid={handleMarkPaid}
+        showActions={showActions} 
       />
 
       {modalOpen && (
