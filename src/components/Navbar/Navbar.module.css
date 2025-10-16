@@ -7,13 +7,15 @@
   box-shadow: 0 2px 8px rgba(255, 140, 66, 0.4);
 }
 
-.logo {
-  width: 6vw;
+.logo{
+  width: 10vw;
   transition: transform 0.3s ease;
+  padding: 1.5rem;
 }
 .logo:hover {
   transform: scale(1.05);
 }
+
 
 .menuToggle {
   display: none;
@@ -100,7 +102,7 @@
   }
 
   .logo {
-    width: 20vw;
+    width: 40vw;
     margin-left: -2vw;
   }
 
