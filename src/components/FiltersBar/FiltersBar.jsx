@@ -25,39 +25,45 @@ function FiltersBar({
 
 
 useEffect(() => {
+
   setBusqueda(defaultBusqueda || "");
-  setEstado(defaultEstado || ""); // 👈 agregar esto
+  setEstado(defaultEstado || "");
   setFechaDesde(defaultFechaDesde || "");
   setFechaHasta(defaultFechaHasta || "");
-
-  handleFilter({
-    estado: defaultEstado || "",
-    busqueda: defaultBusqueda || "",
-    fechaDesde: defaultFechaDesde || "",
-    fechaHasta: defaultFechaHasta || "",
-    fechaPagoDesde,
-    fechaPagoHasta,
-    activeBusqueda,
-    activeEstado,
-    activeSesion,
-    activePago,
-  });
 }, [defaultBusqueda, defaultEstado, defaultFechaDesde, defaultFechaHasta]);
 
 
 
-  const handleFilter = (override) => {
 
-    const payload = {
-      estado: override?.activeEstado ? override?.estado ?? estado : "",
-      busqueda: override?.activeBusqueda ? override?.busqueda ?? busqueda : "",
-      fechaDesde: override?.activeSesion ? override?.fechaDesde ?? fechaDesde : "",
-      fechaHasta: override?.activeSesion ? override?.fechaHasta ?? fechaHasta : "",
-      fechaPagoDesde: override?.activePago ? override?.fechaPagoDesde ?? fechaPagoDesde : "",
-      fechaPagoHasta: override?.activePago ? override?.fechaPagoHasta ?? fechaPagoHasta : "",
-    };
-    onFilterChange?.(payload);
+
+
+const handleFilter = (override) => {
+  // Determinar si usar el flag que viene en override (si existe) o el flag del componente
+  const isActiveBusqueda = override?.activeBusqueda ?? activeBusqueda;
+  const isActiveEstado = override?.activeEstado ?? activeEstado;
+  const isActiveSesion = override?.activeSesion ?? activeSesion;
+  const isActivePago = override?.activePago ?? activePago;
+
+  // Determinar el valor (override tiene preferencia si viene)
+  const valBusqueda = override?.busqueda ?? busqueda;
+  const valEstado = override?.estado ?? estado;
+  const valFechaDesde = override?.fechaDesde ?? fechaDesde;
+  const valFechaHasta = override?.fechaHasta ?? fechaHasta;
+  const valFechaPagoDesde = override?.fechaPagoDesde ?? fechaPagoDesde;
+  const valFechaPagoHasta = override?.fechaPagoHasta ?? fechaPagoHasta;
+
+  const payload = {
+    estado: isActiveEstado ? valEstado : "",
+    busqueda: isActiveBusqueda ? valBusqueda : "",
+    fechaDesde: isActiveSesion ? valFechaDesde : "",
+    fechaHasta: isActiveSesion ? valFechaHasta : "",
+    fechaPagoDesde: isActivePago ? valFechaPagoDesde : "",
+    fechaPagoHasta: isActivePago ? valFechaPagoHasta : "",
   };
+
+  onFilterChange?.(payload);
+};
+
 
   const handleClear = () => {
     setEstado("");
@@ -116,6 +122,24 @@ useEffect(() => {
   const filtrosActivos =
     [activeBusqueda, activeEstado, activeSesion, activePago].filter(Boolean)
       .length;
+
+
+
+useEffect(() => {
+  handleFilter();
+}, [
+  estado,
+  busqueda,
+  fechaDesde,
+  fechaHasta,
+  fechaPagoDesde,
+  fechaPagoHasta,
+  activeBusqueda,
+  activeEstado,
+  activeSesion,
+  activePago,
+]);
+
 
   return (
     <div className={styles.filtrosWrapper}>

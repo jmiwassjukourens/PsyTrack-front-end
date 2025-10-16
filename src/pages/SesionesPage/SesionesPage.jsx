@@ -60,6 +60,8 @@ useEffect(() => {
 
 
 
+
+
   const handleFilterChange = (filtrosRecibidos) => {
     setFiltros(filtrosRecibidos);
   };
