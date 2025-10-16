@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./AgendaFiltersBar.module.css";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export default function AgendaFilterBar({ displayedMonth, onShortcutRangeChange }) {
 
@@ -33,11 +34,15 @@ export default function AgendaFilterBar({ displayedMonth, onShortcutRangeChange 
   return (
     <div className={styles.filtrosWrapper}>
       <div className={styles.atajosTiempo}>
-        <button onClick={handleArrowPrev}>{"<-"} </button>
+        <button onClick={handleArrowPrev}>
+          <FiChevronLeft size={20} /> 
+        </button>
         <button onClick={handleMesAnterior}>Mes anterior</button>
         <button onClick={handleMesActual}>Mes actual</button>
         <button onClick={handleMesSiguiente}>Mes siguiente</button>
-        <button onClick={handleArrowNext}>{ "->" }</button>
+        <button onClick={handleArrowNext}>
+          <FiChevronRight size={20} /> 
+        </button>
       </div>
     </div>
   );
