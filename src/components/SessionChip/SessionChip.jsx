@@ -60,6 +60,7 @@ const handlePacienteClick = () => {
 
         {showActions && (
           <div className={styles.actions}>
+            {/*
             <button
               className={styles.payBtn}
               title={session.fechaDePago ? "Ya marcado como pagado" : "Registrar pago"}
@@ -68,6 +69,7 @@ const handlePacienteClick = () => {
             >
               💰
             </button>
+            */}
             <button
               className={styles.rescheduleBtn}
               title="Reprogramar sesión"

@@ -3,7 +3,7 @@ let sessions = [
   {
     id: 1,
     fecha: "2025-10-10T10:00:00",
-    fechaDePago: "2025-10-09T18:00:00",
+    fechaDePago: null,
     estado: "Pendiente",
     paciente: { nombre: "Juan Pérez" },
     precio: 1500,
@@ -11,8 +11,8 @@ let sessions = [
   },
   {
     id: 2,
-    fecha: "2025-10-10T14:30:00",
-    fechaDePago: null,
+    fecha: "2025-10-11T14:30:00",
+    fechaDePago: "2025-10-09T18:00:00",
     estado: "Pagado",
     paciente: { nombre: "Juan Pérez" },
     precio: 2000,
@@ -30,7 +30,7 @@ let sessions = [
     {
     id: 4,
     fecha: "2025-10-10T16:00:00",
-    fechaDePago: null,
+    fechaDePago: "2025-12-10T16:00:00",
     estado: "Pagado",
     paciente: { nombre: "Carlos Díaz" },
     precio: 1500,

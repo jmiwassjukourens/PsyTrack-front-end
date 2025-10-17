@@ -1,23 +1,34 @@
 import { useState,useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { useAuth } from "../../auth/AuthContext";
 import logonav from "../../assets/logoNav.png";
 import { notificationsService } from "../../services/notificationsService";
 
-function Navbar() {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [submenuOpen, setSubmenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const { user, logout } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
-    const sub = notificationsService.getNotifications().subscribe(n => {
-      setUnreadCount(n.filter(notif => !notif.leida).length);
+    const sub = notificationsService.getNotifications().subscribe((n) => {
+      setUnreadCount(n.filter((notif) => !notif.leida).length);
     });
     return () => sub.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (location.pathname.startsWith("/reportes")) {
+      setSubmenuOpen(true);
+    } else {
+      setSubmenuOpen(false);
+    }
+  }, [location.pathname]);
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleSubmenu = () => setSubmenuOpen(!submenuOpen);
 
   return (
     <header className={styles.header}>
@@ -36,7 +47,27 @@ function Navbar() {
           <ul className={styles.navList}>
             <li><Link to="/agenda" onClick={toggleMenu}>Agenda</Link></li>
             <li><Link to="/sesiones" onClick={toggleMenu}>Sesiones</Link></li>
-            <li><Link to="/reportes" onClick={toggleMenu}>Reportes</Link></li>
+
+            <li
+              className={styles.dropdown}
+              onMouseEnter={() => setSubmenuOpen(true)}
+              onMouseLeave={() => !location.pathname.startsWith("/reportes") && setSubmenuOpen(false)}
+            >
+              <button className={styles.dropdownButton} onClick={toggleSubmenu}>
+                Reportes ▾
+              </button>
+              <ul
+                className={`${styles.submenu} ${submenuOpen ? styles.submenuOpen : ""}`}
+              >
+                <li>
+                  <Link to="/reportes/anual" onClick={toggleMenu}>Reporte Anual</Link>
+                </li>
+                <li>
+                  <Link to="/reportes/mensual" onClick={toggleMenu}>Reporte Mensual</Link>
+                </li>
+              </ul>
+            </li>
+
             <li>
               <Link to="/notificaciones" onClick={toggleMenu}>
                 Notificaciones{" "}
@@ -47,6 +78,7 @@ function Navbar() {
                 )}
               </Link>
             </li>
+
             <li><Link to="/pacientes" onClick={toggleMenu}>Mis Pacientes</Link></li>
             <li>
               <button className={styles.logout} onClick={logout}>
@@ -59,5 +91,3 @@ function Navbar() {
     </header>
   );
 }
-
-export default Navbar;

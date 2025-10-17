@@ -12,6 +12,8 @@ import AgendaPage from "./pages/AgendaPage/AgendaPage";
 import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
 import { RequestProvider } from "./context/RequestContext/RequestContext";
 import GlobalLoader from "./context/RequestContext/GlobalLoader";
+import ReportsAnualPage from "./pages/ReportsPage/ReportsAnualPage";
+
 
 function App() {
   return (
@@ -70,6 +72,14 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+             path="/reportes/anual" 
+             element={<ReportsAnualPage />} 
+             />
+            {/*<Route 
+            path="/reportes/mensual" 
+            element={<ReportsMensualPage />} 
+            />*/}
             
           </Routes>
         </main>
