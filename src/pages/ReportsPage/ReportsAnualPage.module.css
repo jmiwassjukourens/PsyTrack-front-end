@@ -1,7 +1,21 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
 .container {
   padding: 2rem;
   animation: fadeIn 0.5s ease;
   margin-bottom: 8vh;
+   animation: fadeInUp 0.6s ease-out;
 }
 @media (max-width: 680px) {
   .container {
@@ -49,8 +63,19 @@
   border-radius: 14px;
   padding: 1.5rem;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  animation: fadeInUp 0.6s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 320px; 
 }
+
+@media (max-width: 768px) {
+  .chart {
+    min-height: 360px; 
+  }
+}
+
 
 .barChart {
   animation-delay: 0.1s;

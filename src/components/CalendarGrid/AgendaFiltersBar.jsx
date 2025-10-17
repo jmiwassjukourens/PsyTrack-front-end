@@ -27,7 +27,7 @@ export default function AgendaFilterBar({ displayedMonth, onShortcutRangeChange 
     emitirRangoMes(hoy);
   };
 
-  // <- (resta un mes) y -> (suma un mes) ahora usan el mes mostrado, no el actual del sistema
+
   const handleArrowPrev = () => handleMesAnterior();
   const handleArrowNext = () => handleMesSiguiente();
 

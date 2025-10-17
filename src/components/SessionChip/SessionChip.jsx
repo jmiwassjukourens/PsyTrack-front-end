@@ -37,8 +37,17 @@ export default function SessionChip({ session, onCancel, onMarkPaid, onReschedul
 
 const handlePacienteClick = () => {
   const nombre = encodeURIComponent(session.paciente?.nombre || "");
-  const fecha = encodeURIComponent(session.fecha);
-  navigate(`/sesiones?paciente=${nombre}&fecha=${fecha}`);
+  const fecha = new Date(session.fecha);
+
+
+  const fechaDesde = fecha.toISOString().slice(0, 10);
+
+
+  const fechaHastaObj = new Date(fecha);
+  fechaHastaObj.setDate(fecha.getDate() + 1);
+  const fechaHasta = fechaHastaObj.toISOString().slice(0, 10);
+
+  navigate(`/sesiones?paciente=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`);
 };
 
  return (

@@ -51,18 +51,35 @@ export default function ReportsAnualPage() {
     ],
   };
 
-  const barOptions = {
-    responsive: true,
-    interaction: { mode: "index", intersect: false },
-    plugins: {
-      legend: { position: "top" },
-      title: { display: true, text: `Ingresos ${year}`, color: "#333" },
+const barOptions = {
+  responsive: true,
+  maintainAspectRatio: false, 
+  interaction: { mode: "index", intersect: false },
+  plugins: {
+    legend: { position: "top" },
+    title: { display: true, text: `Ingresos ${year}`, color: "#333" },
+  },
+ scales: {
+  x: {
+    stacked: true,
+    ticks: {
+      color: "#444",
+      maxRotation: 45, // máxima rotación de la etiqueta
+      minRotation: 45, // mínima rotación
+      autoSkip: false, // no saltar etiquetas
     },
-    scales: {
-      x: { stacked: true, ticks: { color: "#444" } },
-      y: { stacked: true, ticks: { color: "#444" } },
-    },
-  };
+    grid: { display: false },
+    categoryPercentage: 0.7,
+    barPercentage: 0.8,
+  },
+  y: {
+    stacked: true,
+    ticks: { color: "#444" },
+  },
+},
+
+};
+
 
   const pieData = {
     labels: ["Cobrado", "Pendiente"],
