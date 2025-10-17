@@ -105,7 +105,7 @@ export default function PatientsPage() {
             setOpenForm(true);
           }}
         >
-          ➕ Crear paciente
+          ➕ Dar alta paciente
         </button>
       </div>
 

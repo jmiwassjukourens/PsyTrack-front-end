@@ -25,12 +25,17 @@ function FiltersBar({
 
 
 useEffect(() => {
-
+  // sincronizar estados locales con los defaults cada vez que cambian
   setBusqueda(defaultBusqueda || "");
   setEstado(defaultEstado || "");
   setFechaDesde(defaultFechaDesde || "");
   setFechaHasta(defaultFechaHasta || "");
+
+  // activar checkbox de sesión si vienen fechas predeterminadas
+  setActiveSesion(!!defaultFechaDesde || !!defaultFechaHasta);
+
 }, [defaultBusqueda, defaultEstado, defaultFechaDesde, defaultFechaHasta]);
+
 
 
 

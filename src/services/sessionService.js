@@ -35,10 +35,19 @@ let sessions = [
     paciente: { nombre: "Carlos Díaz" },
     precio: 1500,
     adjunto: null,
+  },
+    {
+    id: 5,
+    fecha: "2025-11-11T10:00:00",
+    fechaDePago: null,
+    estado: "Pendiente",
+    paciente: { nombre: "Juan Pérez" },
+    precio: 1500,
+    adjunto: "recibo-juan.pdf",
   }
 ];
 
-let nextId = 4;
+let nextId = 6;
 
 export function getSessions() {
 

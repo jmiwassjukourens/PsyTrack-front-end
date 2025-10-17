@@ -47,27 +47,9 @@ export default function Navbar() {
           <ul className={styles.navList}>
             <li><Link to="/agenda" onClick={toggleMenu}>Agenda</Link></li>
             <li><Link to="/sesiones" onClick={toggleMenu}>Sesiones</Link></li>
-
-            <li
-              className={styles.dropdown}
-              onMouseEnter={() => setSubmenuOpen(true)}
-              onMouseLeave={() => !location.pathname.startsWith("/reportes") && setSubmenuOpen(false)}
-            >
-              <button className={styles.dropdownButton} onClick={toggleSubmenu}>
-                Reportes ▾
-              </button>
-              <ul
-                className={`${styles.submenu} ${submenuOpen ? styles.submenuOpen : ""}`}
-              >
-                <li>
-                  <Link to="/reportes/anual" onClick={toggleMenu}>Reporte Anual</Link>
-                </li>
-                <li>
-                  <Link to="/reportes/mensual" onClick={toggleMenu}>Reporte Mensual</Link>
-                </li>
-              </ul>
+            <li>
+              <Link to="/reportes/anual" onClick={toggleMenu}>Dashboard</Link>
             </li>
-
             <li>
               <Link to="/notificaciones" onClick={toggleMenu}>
                 Notificaciones{" "}
